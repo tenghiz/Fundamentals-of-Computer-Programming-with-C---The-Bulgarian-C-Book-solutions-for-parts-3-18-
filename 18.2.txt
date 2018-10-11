@@ -1,0 +1,37 @@
+// 18.2 - 
+
+using System;
+using System.Collections.Generic;
+
+namespace Hash
+{
+    class Program
+    {
+        static void Main()
+        {
+            int[] arr = new int[] {4, 2, 2, 5, 2, 3, 2, 3, 1, 5, 2, 6, 6, 6};
+            int leng = arr.Length;
+            IDictionary<int, int> numbers = new SortedDictionary<int, int>();
+            foreach(int n in arr)
+            {
+                int count;
+                if (!numbers.TryGetValue(n, out count))
+                {
+                    count = 0;  
+                    
+                }
+                numbers[n] = count + 1;
+            }
+            List<int> myList = new List<int>();
+            for (int i = 0;i<leng;i++)
+            {
+                int value;
+                numbers.TryGetValue(arr[i], out value);
+                if (value %2 == 0)
+                    myList.Add(arr[i]);
+            }
+            foreach (int entry in myList)
+                Console.WriteLine(entry);
+        }
+    }
+}

@@ -1,0 +1,171 @@
+// Kahn's algorithm - Topological sorting
+
+// DFS topological sort of directed graph using adjacency list
+
+// StackOverflow - jay
+
+=================== class.cs ========================
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Graph_
+{
+    public class Node<T>
+    {
+        public T Id { get; set; }
+        public LinkedList<Node<T>> Adjacent { get; set; }
+
+        public Node(T _id)
+        {
+            this.Id = _id;
+            this.Adjacent = new LinkedList<Node<T>>();
+        }
+    }
+
+    public class Graph<T>
+    {
+        private Dictionary<T, Node<T>> nodeLookup = new Dictionary<T, Node<T>>();
+
+        public Node<T> GetNode(T id)
+        {
+            if (!nodeLookup.ContainsKey(id))
+            {
+                Node<T> s = new Node<T>(id);
+                nodeLookup.Add(id, s);
+            }
+
+            return nodeLookup.Single(x => x.Key.ToString() == id.ToString()).Value;
+        }
+
+        public void AddEdgeDirected(T source, T destination)
+        {
+            Node<T> s = GetNode(source);
+            Node<T> d = GetNode(destination);
+
+            s.Adjacent.AddLast(d);
+        }
+
+        public void PrintGraph()
+        {
+            Console.WriteLine("-------------------------------------- Print Graph");
+            foreach (KeyValuePair<T, Node<T>> kvp in nodeLookup)
+            {
+                Node<T> val = kvp.Value;
+                Console.Write($"[{val.Id}]: ");
+                foreach (Node<T> adj in val.Adjacent)
+                {
+                    Console.Write($"-> {adj.Id}");
+                }
+                Console.WriteLine();
+            }
+        }
+
+        public List<Node<T>> GetAllVertices()
+        {
+            List<Node<T>> result = new List<Node<T>>();
+
+            foreach (KeyValuePair<T, Node<T>> kvp in nodeLookup)
+            {
+                result.Add(kvp.Value);
+            }
+
+            return result;
+        }
+    }
+
+    public static class TopologicalSort<T>
+    {
+        public static void DFSTopSort(Graph<T> graph)
+        {
+            List<Node<T>> vertices = graph.GetAllVertices();
+            int numVertices = graph.GetAllVertices().Count;
+            HashSet<T> visited = new HashSet<T>();
+            T[] result = new T[numVertices];
+            int n = numVertices - 1; //largest topNum  
+
+            foreach (Node<T> node in vertices)
+            {
+                if (!visited.Contains(node.Id))
+                {
+                    n = DFSTopSortUtil(node, visited, result, n, vertices);
+                }
+            }
+
+            Console.Write("\nTopSort_03 - Print: ");
+            Console.Write("\n\t");
+            result.Reverse();
+            foreach (T val in result)
+            {
+                Console.Write($"->{val}");
+            }
+            Console.WriteLine();
+        }
+
+        private static int DFSTopSortUtil(Node<T> node, HashSet<T> visited, T[] result, int n, List<Node<T>> vertices)
+        {
+            visited.Add(node.Id);
+
+            foreach (Node<T> child in node.Adjacent)
+            {
+                if (!visited.Contains(child.Id))
+                {
+                    n = DFSTopSortUtil(child, visited, result, n, vertices);
+                }
+            }
+            result[n] = node.Id;
+            return n - 1;
+        }
+    }
+}
+
+
+=============== main.cs =====================
+
+// Kahn's algorithm - Topological sorting
+
+// DFS topological sort of directed graph using adjacency list
+
+// StackOverflow - jay
+
+using System;
+
+namespace Graph_
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Graph<string> graph = new Graph<string>();
+            AutoCreateGraph_TopSort_Directed(graph);
+            graph.PrintGraph();
+            TopologicalSort<string>.DFSTopSort(graph);
+        }
+
+        public static void AutoCreateGraph_TopSort_Directed(Graph<string> graph)
+        {
+            graph.AddEdgeDirected("A", "B");
+            graph.AddEdgeDirected("B", "C");
+            graph.AddEdgeDirected("C", "F");
+            graph.AddEdgeDirected("F", "H");
+            graph.AddEdgeDirected("H", "G");
+            graph.AddEdgeDirected("G", "F");
+
+            graph.AddEdgeDirected("G", "I");
+            graph.AddEdgeDirected("I", "J");
+            graph.AddEdgeDirected("H", "J");
+
+            graph.AddEdgeDirected("B", "E");
+            graph.AddEdgeDirected("E", "C");
+            graph.AddEdgeDirected("E", "F");
+            graph.AddEdgeDirected("E", "G");
+
+            graph.AddEdgeDirected("B", "D");
+            graph.AddEdgeDirected("D", "E");
+            graph.AddEdgeDirected("D", "G");
+
+            graph.AddEdgeDirected("A", "D");
+        }
+    }
+}

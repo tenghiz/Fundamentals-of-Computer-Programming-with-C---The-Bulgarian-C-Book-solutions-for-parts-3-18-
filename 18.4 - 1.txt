@@ -1,0 +1,62 @@
+// 18.4 - Corrections are implemented to make the code work correctly
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace Dict
+{
+    public class Point3D
+    {
+        public double X { get; set; }
+        public double Y { get; set; }
+        public double Z { get; set; }
+        public Point3D(double x, double y, double z)
+        {
+            this.X = x;
+            this.Y = y;
+            this.Z = z;
+        }
+        public override string ToString()
+        {
+            return String.Format("({0}, {1}, {2})",
+            this.X, this.Y, this.Z);
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            HashDictionary<Point3D, int> dict =
+            new HashDictionary<Point3D, int>(3, 0.9f);
+            Point3D a = new Point3D(1, 2, 3);
+            dict[a] = 1; // Put a key-value pair
+            Console.WriteLine(dict[a]);
+            dict[a] += 1;
+            Console.WriteLine(dict[a]);
+            // Now this point will cause a collision with the
+            // previous one and the elements will be chained
+            Point3D b = new Point3D(3, 2, 2);
+            dict[b] = 42;
+            Console.WriteLine(dict[b]);
+            // Test if the chaining works as expected, i.e.
+            // elements with equal hash-codes are not overwritten
+            Console.WriteLine(dict[a]);
+            // Creation of another entry in the internal table
+            // This will cause the internal table to expand
+            Point3D c = new Point3D(4, 5, 6);
+            dict[c] = 1111;
+            Console.WriteLine(dict[c]);
+            // Delete an existing by its key
+            dict.Remove(b);
+            // Iterate through the dictionary entries and print them
+            foreach (KeyValuePair<Point3D, int> entry in dict)
+            {
+                Console.WriteLine(
+                "Key: " + entry.Key + "; Value: " + entry.Value);
+            }
+        }
+    }
+}

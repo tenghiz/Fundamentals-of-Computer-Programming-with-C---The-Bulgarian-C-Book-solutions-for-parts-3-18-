@@ -1,0 +1,131 @@
+=================== class.cs =======================
+
+using System;
+using System.Collections.Generic;  
+ 
+namespace Graph_
+{
+    public class Graph
+    {
+        private List<int>[] childNodes;
+        
+        public Graph(int size)
+        {
+            this.childNodes = new List<int>[size];
+            for (int i = 0; i < size; i++)
+            {
+                this.childNodes[i] = new List<int>();
+            }
+        }
+ 
+        public Graph(List<int>[] childNodes)
+        {
+            this.childNodes = childNodes;
+        }
+ 
+        public int Size
+        {
+            get { return this.childNodes.Length; }
+        }
+  
+        public void AddEdge(int u, int v)
+        {
+            childNodes[u].Add(v);
+        }
+    
+        public void RemoveEdge(int u, int v)
+        {
+            childNodes[u].Remove(v);
+        }
+    
+        public bool HasEdge(int u, int v)
+        {
+            bool hasEdge = childNodes[u].Contains(v);
+            return hasEdge;
+        }
+   
+        public IList<int> GetSuccessors(int v)
+        {
+            return childNodes[v];
+        }
+    }
+}
+
+
+=================== main.cs ===================
+
+// Finding the shortest path between two points
+
+// The program uses BFS to search for the shortest path between nodes.
+// BFS method has two parameters: starting point and destination point.
+// It uses internal IF loop which checks whether a current node contains destination point among its children.
+// If yes, then destination point is reset to current node and BFS method started again.
+// The loop breaks, then current node coincides with starting point.
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    class GraphComponents
+    {
+        static Graph graph = new Graph(new List<int>[] {
+new List<int>() {1,2}, // successors of vertice 0
+new List<int>() {0,3}, // successors of vertice 1
+new List<int>() {0,3}, // successors of vertice 2
+new List<int>() {1,2,4,5}, // successors of vertice 3
+new List<int>() {3,6}, // successors of vertice 4
+new List<int>() {3,6}, // successors of vertice 5
+new List<int>() {4,5,7,8}, // successors of vertice 6
+new List<int>() {6,9}, // successors of vertice 7
+new List<int>() {6,9}, // successors of vertice 8
+new List<int>() {7,8} // successors of vertice 9
+});
+
+        static int z;
+        static int starting_point;
+        static void TraverseBFS(int v, int u)
+        {
+            Queue<int> VisitedNodes = new Queue<int>();
+            VisitedNodes.Enqueue(v);
+            int check = 0;
+            while (VisitedNodes.Count>0)
+            {
+                int CurrentNode = VisitedNodes.Dequeue();
+                foreach (int child in graph.GetSuccessors(CurrentNode))
+                {
+                    if (child == u)
+                    {
+                        Console.Write(u + "-->");
+                        check++;
+                        z = CurrentNode;
+                        break;
+                    }
+                }
+                if (check == 1 && z != starting_point)
+                {
+                    TraverseBFS(starting_point, z); // reset destination point to a parent of destination point
+                }
+                if (check == 1 && z == starting_point)
+                {
+                    break;
+                }
+                foreach (int child in graph.GetSuccessors(CurrentNode))
+                {
+                    VisitedNodes.Enqueue(child);
+                }
+            }
+        }
+        static void Main()
+        {
+            Console.Write("Please enter the starting point (0, " + (graph.Size-1) + "): ");
+            starting_point = Convert.ToInt32(Console.ReadLine());
+            Console.Write("Please enter the destination point (0, " + (graph.Size-1) + "): ");
+            int destination_point = Convert.ToInt32(Console.ReadLine());
+            Console.Write("The shortest path: ");
+            TraverseBFS(starting_point, destination_point);
+            Console.WriteLine(starting_point);
+            Console.WriteLine();
+        }
+    }
+}

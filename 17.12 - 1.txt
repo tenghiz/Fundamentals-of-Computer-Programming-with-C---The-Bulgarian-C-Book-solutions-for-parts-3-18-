@@ -1,0 +1,159 @@
+======================= class.cs ========================
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    public class File
+    {
+        public string Name { get; set; }
+        public int Size { get; set; }
+
+        public File(string n, int s = 0)
+        {
+            this.Name = n;
+            this.Size = s;
+        }
+    }
+
+    public class Folder
+    {
+        public string Name { get; set; }
+        private List<File> childFiles;
+        private List<Folder> childFolders;
+
+        public Folder(string n)
+        {
+            this.Name = n;
+            this.childFolders = new List<Folder>();
+            this.childFiles = new List<File>();
+        }
+
+        public void AddFolder(Folder f)
+        {
+            this.childFolders.Add(f);
+        }
+
+        public void DeleteFolder(Folder f)
+        {
+            this.childFolders.Remove(f);
+        }
+
+        public void AddFile(File f)
+        {
+            this.childFiles.Add(f);
+        }
+
+        public void DeleteFile(File f)
+        {
+            this.childFiles.Remove(f);
+        }
+
+        public int ChildFoldersCount
+        {
+            get { return this.childFolders.Count; }
+            
+        }
+
+        public int ChildFilesCount
+        {
+            get { return this.childFiles.Count; }
+        }
+
+        public Folder GetChildFolder(int index)
+        {
+            return this.childFolders[index];
+        }
+
+        public File GetChildFile(int index)
+        {
+            return this.childFiles[index];
+        }
+    }
+
+    public class FileTree
+    {
+        private Folder root;
+
+        static int SumOfFiles = 0;
+
+        public int SumOfFiles_
+        {
+            get {return SumOfFiles;}
+        }
+
+        public FileTree(Folder n)
+        {
+            this.root = n;
+        }
+
+        private void PrintDFS(Folder root, string spaces)
+        {
+            if (this.root == null)
+            {
+                return;
+            }
+            Console.WriteLine(spaces + root.Name);
+            for (int i = 0;i<root.ChildFilesCount;i++)
+            {
+                SumOfFiles += root.GetChildFile(i).Size;
+            }
+            Folder child = null;
+            for (int i = 0; i < root.ChildFoldersCount; i++)
+            {
+                child = root.GetChildFolder(i);
+                PrintDFS(child, spaces + "\t");
+            }
+        }
+     
+        public void TraverseDFS()
+        {
+            this.PrintDFS(this.root, string.Empty);
+        }
+    }
+}
+
+
+====================== main.cs =====================
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    class Program
+    {
+        static void Main()
+        {
+            Folder C = new Folder("C:\\");
+            FileTree diskC = new FileTree(C);
+            Folder PerfLogs = new Folder("PerfLogs\\");
+            Folder ProgramFiles = new Folder("ProgramFiles\\");
+            Folder Adobe = new Folder("Adobe\\");
+            Folder Google = new Folder("Google\\");
+            Folder VisualStudio = new Folder("VisualStudio\\");
+            Folder Windows = new Folder("Windows\\");
+            Folder System32 = new Folder("System32\\");
+            Folder Temp = new Folder("Temp\\");
+            File WinIni = new File("Win.ini", 1);
+            File Regedit = new File("Regedit.exe", 50);
+            File ConfigSys = new File("Confyg.sys", 1);
+            C.AddFolder(PerfLogs);
+            C.AddFolder(ProgramFiles);
+            C.AddFolder(Windows);
+            C.AddFile(ConfigSys);
+            ProgramFiles.AddFolder(Adobe);
+            ProgramFiles.AddFolder(Google);
+            ProgramFiles.AddFolder(VisualStudio);
+            Windows.AddFolder(System32);
+            Windows.AddFolder(Temp);
+            Windows.AddFile(WinIni);
+            Windows.AddFile(Regedit);
+
+            diskC.TraverseDFS();
+            Console.WriteLine();
+            Console.WriteLine("The sum of sizes of all files in the subtree is " + diskC.SumOfFiles_);
+        }
+    }
+}

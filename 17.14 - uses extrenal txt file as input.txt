@@ -1,0 +1,127 @@
+// Detecting Strongly Connected Components In Graph
+
+// StackOverflow user 623879
+// CodeCall - bobabc
+
+// content of the *.txt file:
+//3
+//2 3 0
+//1 0
+//0
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace ConsoleApp
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            TextReader reader = File.OpenText(@"C:\Users\vladimir\Documents\Visual Studio 2017\Projects\ConsoleApp1\ConsoleApp1\GraphInput.txt");
+            int vertexCount = int.Parse(reader.ReadLine());
+            DepGraph graph = DepGraph.CreateGraph(vertexCount);
+            for (int i = 0; i < vertexCount; i++)
+            {
+                String[] edges = reader.ReadLine().Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                for (int j = 0; j < edges.Length - 1; j++)
+                {
+                    int d = int.Parse(edges[j]);
+                    graph.Vertices[i].Dependencies.Add(graph.Vertices[d - 1]);
+                }
+            }
+
+            TarjanCycleDetect tarjan = new TarjanCycleDetect();
+            List<List<Vertex>> nodes = tarjan.DetectCycle(graph);
+
+            for (int i = 0;i<nodes.Count;i++)
+            {
+                Console.WriteLine(i);
+            }
+        }
+    }
+
+
+    public class Vertex
+    {
+        public int ID = -1;
+        public int index = -1;
+        public int lowlink = -1;
+        public List<Vertex> Dependencies = new List<Vertex>();
+    }
+
+
+    public class DepGraph
+    {
+        public readonly List<Vertex> Vertices = new List<Vertex>();
+
+        public static DepGraph CreateGraph(int nodeCount)
+        {
+            DepGraph graph = new DepGraph();
+            for (int i = 1; i <= nodeCount; i++)
+            {
+                Vertex v = new Vertex();
+                v.ID = i;
+                graph.Vertices.Add(v);
+            }
+            return graph;
+        }
+    }
+
+
+    public class TarjanCycleDetect
+    {
+        private List<List<Vertex>> output;
+        private Stack<Vertex> nodeStatck;
+        private int index;
+
+        public List<List<Vertex>> DetectCycle(DepGraph g)
+        {
+            output = new List<List<Vertex>>();
+            index = 0;
+            nodeStatck = new Stack<Vertex>();
+            foreach (Vertex v in g.Vertices)
+            {
+                if (v.index < 0)
+                {
+                    StrongConnect(v);
+                }
+            }
+            return output;
+        }
+
+        private void StrongConnect(Vertex v)
+        {
+            v.index = index;
+            v.lowlink = index;
+            index++;
+            nodeStatck.Push(v);
+
+            foreach (Vertex w in v.Dependencies)
+            {
+                if (w.index < 0)
+                {
+                    StrongConnect(w);
+                    v.lowlink = Math.Min(v.lowlink, w.lowlink);
+                }
+                else if (nodeStatck.Contains(w))
+                {
+                    v.lowlink = Math.Min(v.lowlink, w.index);
+                }
+            }
+
+            if (v.lowlink == v.index)
+            {
+                List<Vertex> scc = new List<Vertex>();
+                Vertex w;
+                do
+                {
+                    w = nodeStatck.Pop();
+                    scc.Add(w);
+                } while (v != w);
+                output.Add(scc);
+            }
+        }
+    }
+}

@@ -1,0 +1,29 @@
+// 18.1 - Using example from the book (SortedDictionary)
+
+using System;
+using System.Collections.Generic;
+
+namespace Hash
+{
+    class Program
+    {
+        static void Main()
+        {
+            int[] arr = new int[] { 3, 4, 4, 2, 3, 3, 4, 3, 2 };
+            IDictionary<int, int> numbers = new SortedDictionary<int, int>();
+            foreach(int n in arr)
+            {
+                int count;
+                if (!numbers.TryGetValue(n, out count))
+                {
+                    count = 0;  
+                }
+                numbers[n] = count + 1;
+            }
+            foreach(var n in numbers)
+            {
+                Console.WriteLine("Number {0} occurs {1} times in the array", n.Key, n.Value);
+            }
+        }
+    }
+}

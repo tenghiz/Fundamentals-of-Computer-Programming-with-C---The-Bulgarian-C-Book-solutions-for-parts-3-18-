@@ -1,0 +1,102 @@
+========================= class.cs ============================
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    public class BinaryTree<T>
+    {
+        public T Value { get; set; }
+
+        public BinaryTree<T> LeftChild { get; private set; }
+
+        public BinaryTree<T> RightChild { get; private set; }
+
+        public BinaryTree(T value, BinaryTree<T> leftChild, BinaryTree<T> rightChild)
+        {
+            this.Value = value;
+            this.LeftChild = leftChild;
+            this.RightChild = rightChild;
+        }
+
+        public BinaryTree(T value):this(value, null, null)
+        {
+
+        }
+
+        // traverses in preorder
+        
+        // this block counts the depth of the node
+
+        static int depth = 0;
+        
+        // fills the list with pairs <value, depth>
+        public static Queue<object> NodeDepth = new Queue<object>();
+
+        public void PrintInOrder() 
+        {
+            // visits the root
+            Console.Write(this.Value + " (depth = " + depth + ")\t");
+            NodeDepth.Enqueue(depth);
+            NodeDepth.Enqueue(this.Value);
+
+            // visits the left child
+            if (this.LeftChild != null)
+            {
+                depth++; // here recursion goes deeper
+                this.LeftChild.PrintInOrder();
+            }
+
+            // visits the right child
+            if (this.RightChild != null)
+            {
+                depth++;
+                this.RightChild.PrintInOrder();
+            }
+            
+            depth--; // here recursion goes back
+        }
+ 
+    }
+}
+
+======================= main.cs =========================
+
+// not very elegant solution
+
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    class Program
+    {
+        static void Main()
+        {
+            BinaryTree<int> binaryTree =
+new BinaryTree<int>(14,
+new BinaryTree<int>(19,new BinaryTree<int>(23),new BinaryTree<int>(6,new BinaryTree<int>(10),
+new BinaryTree<int>(21))),
+new BinaryTree<int>(15, 
+new BinaryTree<int>(3),
+null));
+            // Traverse and print the tree in in-order manner
+            binaryTree.PrintInOrder();
+            Console.WriteLine();
+
+            // calculates the sum of each level
+            int z = (int)BinaryTree<int>.NodeDepth.Count;
+            int[] ListOfSum = new int[z];
+            int counter;
+            while(BinaryTree<int>.NodeDepth.Count > 0)
+            {
+                counter = (int)BinaryTree<int>.NodeDepth.Dequeue(); 
+                ListOfSum[counter] += (int)BinaryTree<int>.NodeDepth.Dequeue();
+            }
+            for (int i=0;i<z;i++)
+            {
+                Console.WriteLine("Depth " + i + ", sum = " + ListOfSum[i]);
+            }
+        }
+    }
+}

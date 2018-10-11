@@ -1,0 +1,113 @@
+=========================== class.cs =============================
+
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    public class BinaryTree<T>
+    {
+        public T Value { get; set; }
+
+        public BinaryTree<T> LeftChild { get; private set; }
+
+        public BinaryTree<T> RightChild { get; private set; }
+
+        public BinaryTree(T value, BinaryTree<T> leftChild, BinaryTree<T> rightChild)
+        {
+            this.Value = value;
+            this.LeftChild = leftChild;
+            this.RightChild = rightChild;
+        }
+
+        public BinaryTree(T value) : this(value, null, null)
+        {
+
+        }
+
+        // fills the list with pairs <value, depth>
+        public static List<object> nodes = new List<object>();
+
+        static int depth = 0;
+
+        public void PrintInOrder()
+        {
+            // visits the left child
+            if (this.LeftChild != null)
+            {
+                depth++;
+                this.LeftChild.PrintInOrder();
+            }
+
+            // visits the right child
+            if (this.RightChild != null)
+            {
+                depth++;
+                this.RightChild.PrintInOrder();
+            }
+
+            // visits the root
+            Console.Write(this.Value + " (depth = " + depth + ")\t");
+
+            nodes.Add(depth);
+            nodes.Add(this.Value);
+ 
+            depth--;
+        }
+    }
+}
+
+
+============================ main.cs ===========================
+
+// 17.5 - Found all nodes which are connected to leaves
+
+// This program works in a following manner:
+// Method PrintInOrder goes first to the left child, then to the right child, then back to parent.
+// At the same time Method PrintInOrder fills List nodes with values of nodes preceded by its depth.
+// If a given node has only leaves, in this case List nodes must containt following pattern:
+// <...>, <depthX>, <LeftChild>, <depthX>, <RightChild>, <depthX-1>, <Parent>, <...>.
+// If this pattern is found, <Parent> is added to List parents.
+
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    class Program
+    {
+        static void Main()
+        {
+            BinaryTree<int> binaryTree =
+new BinaryTree<int>(14,
+new BinaryTree<int>(19, new BinaryTree<int>(23), new BinaryTree<int>(6, new BinaryTree<int>(10),
+new BinaryTree<int>(21))),
+new BinaryTree<int>(15,
+new BinaryTree<int>(3),
+new BinaryTree<int>(9)));
+            // Traverse and print the tree in in-order manner
+            Console.WriteLine("Nodes and their depth: ");
+            binaryTree.PrintInOrder();
+            Console.WriteLine();
+
+            // Following code looks for all nodes connected to leaves
+            List<object> parents = new List<object>();
+            int counter = 0;
+
+            while(BinaryTree<int>.nodes.Count-2 > counter)
+            {
+                object value = BinaryTree<int>.nodes[counter];
+                if (BinaryTree<int>.nodes[counter + 2].Equals(value))
+                {
+                    parents.Add(BinaryTree<int>.nodes[counter + 5]);
+                }
+                counter++;
+            }
+
+            Console.WriteLine("Nodes connected to leaves: ");
+            for (int i = 0;i<parents.Count;i++)
+                Console.Write(parents[i] + "\t");
+            Console.WriteLine();
+        }
+    }
+}

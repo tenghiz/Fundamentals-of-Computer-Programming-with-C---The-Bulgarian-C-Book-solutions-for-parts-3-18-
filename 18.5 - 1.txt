@@ -1,0 +1,61 @@
+// 18.5 - Sketch
+
+// An attempt to create a dictionary with double key.
+// This program sketch was designed following recommendations of authors.
+// The entries of a dictionary can be created following 2 different methods.
+// 1st method: 
+// - create an instance of 3D dict and then create an instance of 2D dict;
+// - create items in 2D dict (key + value);
+// - create items in 3D dict (key + instance of 2D dict).
+// In such a dictionary 1st key of 3D dict will always refer to the same instance of 2d dict.
+// It means that the 2nd key is not fixed to the 1st key.
+// 2nd method:
+
+
+using System;
+
+namespace Dict
+{
+    class Program
+    {
+        static void Main()
+        {
+            // 1st method: 1st key of 3D dict refers to the same instance of 2D dict
+            HashDictionary<string,HashDictionary<int, string>> myMyDict = new HashDictionary<string, HashDictionary<int, string>>();
+            HashDictionary<int, string> myDict = new HashDictionary<int, string>();
+            myDict[12] = "cookies";
+            myDict[6] = "boboche";
+            myMyDict["shoddy"] = myDict;
+            myMyDict["shoddy"][12] = "cookies"; // reassignement is not necessary
+            myMyDict["pluffy"] = myDict;
+            myMyDict["pluffy"][6] = "boboche"; // reassignement is not necessary
+            foreach (var item in myMyDict)
+            {
+                Console.WriteLine(item.Key);
+                foreach (var item1 in item.Value)
+                {
+                    Console.WriteLine(item1.Key + ": " + item1.Value); // prints all the entries from myDict
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(myMyDict["shoddy"][12]);
+            Console.WriteLine(myMyDict["shoddy"][6]);
+
+            // 2nd method: no instance of 2D is created. The key of 3D dict is directly linked 
+            // to unnamed instance of 2D dict
+            myMyDict["chuffin"] = new HashDictionary<int, string>();
+            myMyDict["chuffin"][24] = "merry";
+            myMyDict["spicy"] = new HashDictionary<int, string>();
+            myMyDict["spicy"][12] = "boboche";
+            foreach (var item in myMyDict)
+            {
+                Console.WriteLine(item.Key);
+                foreach (var item1 in item.Value)
+                {
+                    Console.WriteLine(item1.Key + ": " + item1.Value); // prints all the entries from myDict
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

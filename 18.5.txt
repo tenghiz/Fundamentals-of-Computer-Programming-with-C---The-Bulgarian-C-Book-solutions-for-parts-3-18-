@@ -1,0 +1,58 @@
+// 18.5 - Dictionary using tuples
+
+// StackExchange - MarioVW (Practical example where Tuple can be used in .Net 4.0?)
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace Dict
+{
+    class Program
+    {
+        static void Main()
+        {
+            var family = new Dictionary<Tuple<string, string>, int>(); // parent's names as keys and number of their kids
+            family.Add(Tuple.Create("August", "Bertha"), 2);
+            family[Tuple.Create("Serge", "Jeanne")] = 2;
+            var a = new Tuple<string, string>("Mohammed", "Malika"); // new Tuple
+            family[a] = 4;
+            var b = Tuple.Create("John", "Deborah"); // Tuple.Create
+            family[b] = 0;
+            for (int i = 0;i< family.Count; i++) // FOREACH loop is not allowed for Tuple
+            {
+                Console.WriteLine(family.ElementAt(i).Key + ": " + family.ElementAt(i).Value); // use LINQ method ElementAt
+            }
+            int children = 0;
+            for (int i = 0;i< family.Count; i++) // TryGetValue
+            {
+                int children_per_family; 
+                family.TryGetValue(family.ElementAt(i).Key, out children_per_family);
+                children += children_per_family;
+            }
+            Console.WriteLine("Total number of children is " + children);
+            Console.WriteLine();
+            family.Remove(Tuple.Create("Serge", "Jeanne")); // REMOVE method via explicite key declaration
+            for (int i = 0; i < family.Count; i++)
+            {
+                Console.WriteLine(family.ElementAt(i).Key + ": " + family.ElementAt(i).Value);
+            }
+            Console.WriteLine();
+            for (int i = 0; i < family.Count; i++)
+            {
+                var x = family.ElementAt(i);
+                if (x.Value == 0)
+                    family.Remove(x.Key); // REMOVE method via variable
+            }
+            for (int i = 0; i < family.Count; i++)
+            {
+                Console.WriteLine(family.ElementAt(i).Key + ": " + family.ElementAt(i).Value);
+            }
+            Console.WriteLine();
+            if (family.ContainsKey(Tuple.Create("August", "Bertha"))) // ContainsKey method via explicite key values
+                Console.WriteLine("CONTAINS_KEY method works well");
+            if (family.ContainsKey(a)) // ContainsKey method via variable
+                Console.WriteLine("CONTAINS_KEY method still works well");
+        }
+    }
+}

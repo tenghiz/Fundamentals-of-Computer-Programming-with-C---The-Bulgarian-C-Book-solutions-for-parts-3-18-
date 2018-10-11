@@ -1,0 +1,54 @@
+// 18.5 - The method for the retrival of value by a couple of keys
+// and for the setting new triples.
+
+// Please use textbooks HasDictionary class and Interface
+
+using System;
+
+namespace Dict
+{
+    class Program
+    {
+        static void Main()
+        {
+            HashDictionary<string,HashDictionary<int, string>> myMyDict = new HashDictionary<string, HashDictionary<int, string>>();
+            myMyDict["chuffin"] = new HashDictionary<int, string>();
+            myMyDict["chuffin"][24] = "merry";
+            myMyDict["spicy"] = new HashDictionary<int, string>();
+            myMyDict["spicy"][12] = "boboche";
+            SetNewEntry(myMyDict, "goja", 12, "duck");
+            foreach (var item in myMyDict)
+            {
+                Console.WriteLine(item.Key);
+                foreach (var item1 in item.Value)
+                {
+                    Console.WriteLine(item1.Key + ": " + item1.Value); // prints all the entries from myDict
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine(FindValue(myMyDict, "chuffin", 24));
+            Console.WriteLine(FindValue(myMyDict, "chubbin", 25));
+            Console.WriteLine(FindValue(myMyDict, "chuffin", 24));
+        }
+
+        static void SetNewEntry(HashDictionary<string, HashDictionary<int, string>> myMyDict, string key1, int key2, string value1)
+        {
+            myMyDict.Set(key1, new HashDictionary<int, string>());
+            myMyDict[key1][key2] = value1;
+        }
+
+        static string FindValue(HashDictionary<string, HashDictionary<int, string>> myMyDict, string key1, int key2)
+        {
+            string s = null;
+            try
+            {
+                s = myMyDict[key1][key2];
+            }
+            catch
+            {
+                Console.WriteLine("No such entry in dictionary!"); 
+            }
+            return s;
+        }
+    }
+}

@@ -1,0 +1,109 @@
+========================== class.cs ========================
+
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    public class BinaryTree<T>
+    {
+        public T Value { get; set; }
+
+        public BinaryTree<T> LeftChild { get; private set; }
+
+        public BinaryTree<T> RightChild { get; private set; }
+
+        public BinaryTree(T value, BinaryTree<T> leftChild, BinaryTree<T> rightChild)
+        {
+            this.Value = value;
+            this.LeftChild = leftChild;
+            this.RightChild = rightChild;
+        }
+
+        public BinaryTree(T value) : this(value, null, null)
+        {
+
+        }
+
+        static int depth = 0;
+        public static int MaxDepth = 0; // maximal depth
+        public static int counter = 0; // number of nodes (exclude root)
+
+        public void PrintInOrder()
+        {
+            // visits the left child
+            if (this.LeftChild != null)
+            {
+                depth++;
+                counter++;
+                this.LeftChild.PrintInOrder();
+            }
+
+            // visits the right child
+            if (this.RightChild != null)
+            {
+                depth++;
+                counter++;
+                this.RightChild.PrintInOrder();
+            }
+
+            // visits the root
+            Console.Write(this.Value + " (depth = " + depth + ")\t");
+
+            if (depth > MaxDepth)
+                MaxDepth = depth;
+
+            depth--;
+        }
+    }
+}
+
+
+=================== main.cs =====================
+
+// In a perfectly balanced binary tree the depth must correspond
+// to a maximal exponent in an exponential serie 2^0 + 2^1 + 2^2 + ... 2^n,
+// where n is a depth of the tree.
+
+using System;
+using System.Collections.Generic;
+
+namespace BinaryTree_
+{
+    class Program
+    {
+        static void Main()
+        {
+            BinaryTree<int> binaryTree =
+new BinaryTree<int>(14,
+new BinaryTree<int>(19, new BinaryTree<int>(23), new BinaryTree<int>(6, new BinaryTree<int>(10),
+new BinaryTree<int>(21))),
+new BinaryTree<int>(15,
+new BinaryTree<int>(3),
+new BinaryTree<int>(9)));
+            // Traverse and print the tree in in-order manner
+            Console.WriteLine("Nodes and their depth: ");
+            binaryTree.PrintInOrder();
+            Console.WriteLine();
+
+            int TreeMaxDepth = BinaryTree<int>.MaxDepth;
+            int NodesNumber = BinaryTree<int>.counter; // exclude root
+            int sum = 0;
+            int multiplier = 1;
+            int counter = 0;
+            while (counter < TreeMaxDepth)
+            {
+                multiplier *= 2;
+                sum += multiplier;
+                counter++;
+            }
+            Console.WriteLine("The maximal depth of the tree is " + TreeMaxDepth);
+            Console.WriteLine("Perefectly balanced tree of this depth must have " + sum + " members");
+            Console.WriteLine("Current tree has " + NodesNumber + " members");
+            if (sum > NodesNumber)
+                Console.WriteLine("This tree is not perfectly balanced");
+            else if (sum == NodesNumber)
+                Console.WriteLine("This tree is perfectly balanced");
+        }
+    }
+}

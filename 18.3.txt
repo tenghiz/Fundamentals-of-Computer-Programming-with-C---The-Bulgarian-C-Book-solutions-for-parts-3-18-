@@ -1,0 +1,37 @@
+// 18.3 - 
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+namespace Hash
+{
+    class Program
+    {
+        static void Main()
+        {
+            char[] separators = new char[] { ' ', '.', ',', '-', '?', '!', ':', ';', '(', ')', '"',(char)10, (char)13 };
+            IDictionary<string, int> myDict = new SortedDictionary<string, int>();
+            StreamReader sr = new StreamReader("D:\\bulgar\\output.txt");
+            string text_otput = sr.ReadToEnd();
+            sr.Close();
+            string[] words = text_otput.Split(separators);
+            foreach(string word in words)
+            {
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    int count;
+                    if (!myDict.TryGetValue(word, out count))
+                    {
+                        count = 0;
+                    }
+                    myDict[word] = count + 1;
+                }
+            }
+            var sorted = myDict.OrderBy(p => p.Value); // create new dictionary sorted by value
+            foreach (var n in sorted)
+                Console.WriteLine(n.Key + ": " + n.Value);
+        }
+    }
+}

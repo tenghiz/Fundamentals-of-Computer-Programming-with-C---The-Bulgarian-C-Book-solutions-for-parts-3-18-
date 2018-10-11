@@ -1,0 +1,64 @@
+// file system - sketch
+
+================ class.cs ===================
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    public class File
+    {
+        public string Name { get; set; }
+        public int Size { get; set; }
+        public Folder parentFolder { get; set; }
+    }
+
+    public class Folder
+    {
+        public string Name { get; set; }
+        public List<File> childFiles { get; set; } = new List<File>();
+        public List<Folder> childFolders { get; set; } = new List<Folder>();
+        public Folder parentFolder { get; set; }
+    }
+
+    public class FileTree
+    {
+        public Folder Root { get; set; }
+    }
+}
+
+=============== main.cs =================
+
+// File system - first variant
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    class Program
+    {
+        static void Main()
+        {
+            FileTree diskC = new FileTree();
+            //diskC.Root.Name = "C:\\";
+            diskC.Root = new Folder() { Name = "C:\\" };
+            diskC.Root.childFolders = new List<Folder>()
+            {
+                new Folder(){Name = "Windows\\", parentFolder = diskC.Root},
+                new Folder(){Name = "ProgramFiles\\", parentFolder = diskC.Root},
+                new Folder(){Name = "Intel\\", parentFolder = diskC.Root}
+            };
+            diskC.Root.childFiles = new List<File>()
+            {
+                new File(){Name = "setup.ini", Size = 1, parentFolder = diskC.Root}
+            };
+            Console.WriteLine(diskC.Root.childFolders[0].Name); // Windows
+            diskC.Root.childFolders[0].childFolders = new List<Folder>()
+            {
+                new Folder(){Name = "System32\\", parentFolder = diskC.Root.childFolders[0]}
+            };
+        }
+    }
+}
