@@ -1,0 +1,44 @@
+// DateTime TryParse method doesn't work
+// try {DateTime Parse} catch {} also doesn't work
+// Regex "[0-9]{2}(/)[0-9]{2}(/)[0-9]{4}(/)" is also failed
+
+// Universal solution: it is supposed that the date can be represented in one of the following formats:
+// xx.xx.xxxx, xxxx.xx.xx, xx-xx-xxxx, xxxx-xx-xx, etc. Any of these combinations contains 8 digits.
+// Loop will be used to search for all these combinations.
+
+using System;
+using System.IO;
+
+class Parentheses
+{
+    static void Main()
+    {
+        
+        string s = "I was born at 14.06.1980. My sister was born at 03/07/1984. B0bby was born in 2001-01-02, 17.20.2004.";
+        TextWriter sw = new StreamWriter("D:\\bulgar\\date.txt");
+        int index = 0;
+        while(true)
+        {
+            int a = index;
+            int b = s.IndexOf(" ", a);
+            string word = s.Substring(a, 10); // 10 is the length of a date string xx.xx.xxxx
+            int counter = 0;
+            for (int i = 0;i<10;i++)
+            {
+                if ((int)(word[i]) > 47 && (int)(word[i]) < 58)
+                {
+                    counter++;
+                }
+            }
+            if (counter == 8)
+            {
+                Console.WriteLine(word);
+                sw.WriteLine(word);
+            }
+            if (b == -1)
+                break;
+            index = (b+1);
+        }
+        sw.Close();
+    }
+}

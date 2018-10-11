@@ -1,0 +1,54 @@
+using System;
+using System.IO;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        
+        string s = "mama, papa, daughter, doggy, baby-boy";
+        int z = s.Length;
+        int counter = 0;
+        for (int i = 0;i<z;i++)
+        {
+            if (s[i] == ',')
+                counter++;
+        }
+        string[] arr = new string[counter+1];
+        int y = 0;
+        int index = 0;
+        int a, b;
+        while (true)
+        {
+            a = index;
+            if (y == counter)
+            {
+                b = z;
+            }
+            else
+                b = s.IndexOf(",", a);
+            arr[y] = s.Substring(a, b-a);
+            y++;
+            if (y > counter)
+                break;
+            index = b+2;
+        }
+        for (int i = 0;i<counter;i++)
+        {
+            int min = i;
+            for (int j = i+1; j<counter;j++)
+            {
+                if (arr[j].CompareTo(arr[min]) == -1)
+                    min = j;
+            }
+            string temp = arr[i];
+            arr[i] = arr[min];
+            arr[min] = temp;
+        }
+        for (int i = 0;i<counter;i++)
+        {
+            Console.WriteLine(arr[i]);
+        }
+    }
+}

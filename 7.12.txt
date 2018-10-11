@@ -1,0 +1,52 @@
+using System;
+
+class SquareMatrix
+{
+    public static void Main()
+    {
+        Console.Write("Please enter the number: ");
+        int z = int.Parse(Console.ReadLine());
+        int[,] arr = new int[z, z];
+        int size = z * z;
+        int counter = 1;
+        int k = 0;
+        // fill left bottom
+        while(true)
+        {
+            int j = 0;
+            for (int i = z - k -1;i<z;i++)
+            {
+                arr[i, j] = counter;
+                counter++;
+                j++;
+            }
+            k++;
+            if (k == z)
+                break;
+        }
+        // fill right top
+        k = 1;
+        while(true)
+        {
+            int j = k;
+            for (int i = 0;i<z-k;i++)
+            {
+                arr[i, j] = counter;
+                counter++;
+                j++;
+            }
+            k++;
+            if (k == z)
+                break;
+        }
+        Console.WriteLine();
+        for (int p = 0;p<z;p++)
+        {
+            for (int q = 0; q < z; q++)
+                Console.Write(arr[p, q] + "\t");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+    }
+}

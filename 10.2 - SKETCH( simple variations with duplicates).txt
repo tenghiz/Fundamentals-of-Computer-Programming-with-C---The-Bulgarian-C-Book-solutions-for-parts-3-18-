@@ -1,0 +1,61 @@
+// 10.2 - SKETCH (all variations with duplicates)
+
+// This program uses simple iterative loops 
+// with predefined depth to generate all 
+// variations with duplicates 
+// consisting of N elements from 
+// a set consisting of K non-repeating elements
+
+using System;
+
+class SubsetsNotRecursiveClass
+{
+    static void Main()
+    {
+        
+        int arr_length = 5;
+        int[] arr = new int[arr_length];
+        for (int i = 0; i<arr_length; i++)
+        {
+            arr[i] = i + 1;
+        }
+        Console.WriteLine("Generated array: ");
+        for (int i = 0; i < arr_length; i++)
+            Console.Write(arr[i] + " ");
+        Console.WriteLine();
+        // print all subsets consisting of 2 elements
+        Console.WriteLine("Variations with duplicates of 2 elements: ");
+        for (int i=0;i<arr_length;i++)
+        {
+            for (int j = 0; j < arr_length; j++)
+                Console.WriteLine("({0},{1}) ", arr[i], arr[j]);
+        }
+        // print all subsets consisting of 3 elements
+        Console.WriteLine("Variations with duplicates of 3 elements: ");
+        for (int i = 0; i < arr_length; i++)
+        {
+            for (int j = 0; j < arr_length; j++)
+            {
+                for (int k = 0;k<arr_length;k++)
+                {
+                    Console.WriteLine("({0},{1},{2}) ", arr[i], arr[j], arr[k]);
+                }
+            }
+        }
+        // print all subsets consisting of 4 elements
+        Console.WriteLine("Variations with duplicates of 4 elements: ");
+        for (int i = 0; i < arr_length; i++)
+        {
+            for (int j = 0; j < arr_length; j++)
+            {
+                for (int k = 0; k < arr_length; k++)
+                {
+                    for (int l = 0;l<arr_length;l++)
+                    {
+                        Console.WriteLine("({0},{1},{2},{3}) ", arr[i], arr[j], arr[k], arr[l]);
+                    }
+                }
+            }
+        }
+    }
+}

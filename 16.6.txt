@@ -1,0 +1,38 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> myList = new List<int>();
+        Random rnd = new Random();
+        int leng = 20;
+        for (int i = 0; i < leng; i++)
+        {
+            int z = rnd.Next(-10, 10);
+            myList.Add(z);
+        }
+        Console.WriteLine("Generated list: ");
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+        int y = myList.Count;
+        int a = 0;
+        if (y % 2 == 0)
+            a = y-1; // count 20, points to 19
+        else if (y % 2 != 0)
+            a = y - 2; // count 19, points to 18, set pointer to 17
+        while(a>0)
+        {
+            myList.RemoveAt(a);
+            a -= 2;
+        }
+        Console.WriteLine("Odd items removed");
+        for (int i = 0;i<myList.Count;i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+    }
+}

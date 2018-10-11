@@ -1,0 +1,39 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Please enter the name of first input file: ");
+        string input_file1 = Console.ReadLine();
+        Console.Write("Please enter the name of second input file: ");
+        string input_file2 = Console.ReadLine();
+        Console.Write("Please enter the name of output file: ");
+        string output_file = Console.ReadLine();
+        //StreamWriter sw = new StreamWriter(output_file);
+        using (StreamWriter sw = new StreamWriter(output_file))
+        {
+            using (StreamReader sr = new StreamReader(input_file1))
+            {
+                while (true)
+                {
+                    string line = sr.ReadLine();
+                    if (line == null)
+                        break;
+                    sw.WriteLine(line);
+                }
+            }
+            using (StreamReader sr = new StreamReader(input_file2))
+            {
+                while (true)
+                {
+                    string line = sr.ReadLine();
+                    if (line == null)
+                        break;
+                    sw.WriteLine(line);
+                }
+            }
+        }
+    }
+}

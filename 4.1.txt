@@ -1,0 +1,12 @@
+using System;
+class ReadThreeNumbers
+{
+    static void Main()
+    {
+        Console.WriteLine("Please enter any three numbers (press Enter after each number): ");
+        int a = int.Parse(Console.ReadLine());
+        int b = int.Parse(Console.ReadLine());
+        int c = int.Parse(Console.ReadLine());
+        Console.WriteLine("{0} + {1} + {2} = {3}", a, b, c, a+b+c);
+    }
+}

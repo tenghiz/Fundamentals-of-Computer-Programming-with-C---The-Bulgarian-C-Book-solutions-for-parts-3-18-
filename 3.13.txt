@@ -1,0 +1,45 @@
+using System;
+class ChangeBit
+{
+    public static void Main()
+    {
+        //input a four-digit number
+        Console.Write("Please enter a number between 0 and 255: ");
+        string q = Console.ReadLine();
+        int num = int.Parse(q);
+        int arr_length = 8;
+        int[] arr = new int[arr_length];
+        int i = arr_length - 1;
+        while (num != 0)
+        {
+            arr[i] = num % 2;
+            num /= 2;
+            i--;
+        }
+        Console.Write("Number {0} in binary form: ", num);
+        for (int j = 0; j < arr_length; j++)
+            Console.Write(arr[j]);
+        Console.WriteLine();
+        Console.Write("Please enter bit position: ");
+        string p = Console.ReadLine();
+        int bit = int.Parse(p);
+        Console.Write("Please enter new bit value: ");
+        string m = Console.ReadLine();
+        int new_value = int.Parse(m);
+        arr[arr_length - bit - 1] = new_value;
+        Console.Write("Number {0} in binary form: ", num);
+        for (int j = 0; j < arr_length; j++)
+            Console.Write(arr[j]);
+        Console.WriteLine();
+        Console.Write("Integer form: ");
+        int sum = 0;
+        sum += arr[arr_length - 1];
+        int two = 2;
+        for (int k = arr_length-2; k> -1;k--)
+        {
+            sum += two * (arr[k]);
+            two *= 2;
+        }
+        Console.WriteLine(sum);
+    }
+}

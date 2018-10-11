@@ -1,0 +1,44 @@
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+
+class Parentheses
+{
+    static void Main()
+    {
+
+        string s = "We are living in a <upcase>yellow submarine</upcase>. We don't have <upcase>anything</upcase> else";
+        string start = "<upcase>";
+        string end = "</upcase>";
+        int z = s.Length;
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        int a, b;
+        string substring;
+        while(index != -1)
+        {
+            a = index;
+            index = s.IndexOf(start,a); // start to look for a pattern from A
+            b = index;
+            if (b == -1) // if reached the EOF, then set index to last element
+                b = z;
+            substring = s.Substring(a, b - a);
+            sb.Append(substring);
+            if (b == z)
+                break;
+            index += start.Length;
+            a = index;
+            index = s.IndexOf(end,a);
+            b = index;
+            if (b == -1) // if reached the EOF, then set index to last element
+                b = z;
+            substring = s.Substring(a, b - a);
+            substring = substring.ToUpper();
+            sb.Append(substring);
+            if (b == z)
+                break;
+            index += end.Length;
+        }
+        Console.WriteLine(sb);
+    }
+}

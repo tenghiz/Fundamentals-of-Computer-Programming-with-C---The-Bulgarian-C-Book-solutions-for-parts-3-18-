@@ -1,0 +1,32 @@
+
+using System;
+class DecToHex
+{
+    static void Main()
+    {
+        Console.Write("Please enter any number in range between 0 and 65535: ");
+        string s = Console.ReadLine();
+        int number = int.Parse(s);
+        int[] arr = new int[4];
+        int i = 0;
+        while(number != 0)
+        {
+            arr[i] = number % 16;
+            number /= 16;
+            i++;
+        }
+        char letter = 'A';
+        Console.Write("Hexadecimal form: ");
+        for (int j = 3; j>-1;j--)
+        {
+            if (arr[j] < 10)
+                Console.Write(arr[j]);
+            if (arr[j] >= 10)
+            {
+                int y = (int)letter + arr[j] - 10;
+                Console.Write((char)y);
+            }
+        }
+        Console.WriteLine();
+    }
+}

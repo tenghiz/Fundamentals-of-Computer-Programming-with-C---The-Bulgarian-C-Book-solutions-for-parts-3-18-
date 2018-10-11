@@ -1,0 +1,30 @@
+using System;
+using System.IO;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        StreamReader reader = new StreamReader("D:\\bulgar\\date.txt");
+        TextWriter writer = new StreamWriter("D:\\bulgar\\date_1.txt");
+        int counter = 0;
+        while(true)
+        {
+            int ch = reader.Read();
+            if (ch == '<')
+                counter++;
+            if (ch == '>')
+                counter--;
+            if (ch == -1)
+                break;
+            if (counter == 0 && ch != '>')
+            {
+                writer.Write((char)ch);
+                Console.Write((char)ch);
+            }
+        }
+        reader.Close();
+        writer.Close();
+    }
+}

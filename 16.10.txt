@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        int start = 5;
+        int finish = 144;
+        Queue<int> queue = new Queue<int>();
+        List<int> myList = new List<int>();
+        queue.Enqueue(start);
+        int current = queue.Dequeue();
+        Console.WriteLine("N = " + current);
+        Console.WriteLine();
+        int counter = 0;
+        int z = 0;
+        while (current != finish)
+        {
+            queue.Enqueue(current + 1);
+            queue.Enqueue(current + 2);
+            queue.Enqueue(2 * current);
+            current = queue.Dequeue();
+            if (counter == 0)
+            {
+                z = current - 1;
+                Console.WriteLine(z + " + 1 = " + current);
+                myList.Add(z);
+                myList.Add(current);
+            }
+            if (counter == 1)
+            {
+                z = current - 2;
+                Console.WriteLine(z + " + 2 = " + current);
+                myList.Add(z);
+                myList.Add(current);
+            }
+            if (counter == 2)
+            {
+                z = current / 2;
+                Console.WriteLine(z + " x 2 = " + current);
+                myList.Add(z);
+                myList.Add(current);
+                counter = -1;
+                Console.WriteLine();
+            }
+            counter++;
+        }
+        Console.WriteLine();
+        Console.WriteLine("Retrieving the shortest sequence...");
+        int y = myList.Count;
+        int a = finish;
+        Console.Write(a + " ");
+        while (true)
+        {
+            y = myList.IndexOf(a);
+            y--;
+            a = myList[y];
+            Console.Write(a + " ");
+            if (a == start)
+                break;
+        }
+        Console.WriteLine();
+        Console.WriteLine();
+    }
+}

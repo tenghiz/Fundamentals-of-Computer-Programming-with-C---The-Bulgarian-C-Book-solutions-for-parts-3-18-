@@ -1,0 +1,178 @@
+how to declare and use ENUMERATION
+
++++++++++++++++++++++++  class.cs +++++++++++++++++++++++++++++
+
+using System;
+
+namespace Phone
+{
+    class MobilePhone
+    {
+        private string model = null;
+        private string manufacturer = null;
+        private double price = 0;
+        private string owner = null;
+        public Battery battery;
+        public Screen screen;
+
+        public MobilePhone()
+        {
+
+        }
+        public MobilePhone(string mod, string man, double p, string ow)
+        {
+            this.model = mod;
+            this.manufacturer = man;
+            this.price = p;
+            this.owner = ow;
+        }
+
+        public string Model
+        {
+            get { return this.model; }
+            set { this.model = value; }
+        }
+
+        public string Manufacturer
+        {
+            get { return this.manufacturer; }
+            set { this.manufacturer = value; }
+        }
+
+        public double Price
+        {
+            get { return this.price; }
+            set { this.price = value; }
+        }
+
+        public string Owner
+        {
+            get { return this.owner; }
+            set { this.owner = value; }
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("Phone info");
+            Console.WriteLine("Model: " + this.model);
+            Console.WriteLine("Manufacturer: " + this.manufacturer);
+            Console.WriteLine("Price: " + this.price);
+            Console.WriteLine("Owner: " + this.owner);
+            Console.WriteLine();
+        }
+
+        public struct Battery
+        {
+            private string battery_model;
+            private double idle_time;
+            private double hours_talk;
+
+            // enumeration, its constructor, property field
+            public enum BatteryType
+            {
+                NiCd = 1, NiMH = 2, LiIon = 3, liPol = 4
+            }
+
+            public BatteryType battery_type;
+            public BatteryType Battery_Type
+            {
+                get { return battery_type; }
+                set { battery_type = value; }
+            }
+
+            /*
+            public Battery(string BatMod, double IdTm, double HrsTlk)
+            {
+                this.battery_model = BatMod;
+                this.idle_time = IdTm;
+                this.hours_talk = HrsTlk;
+            }
+            */
+
+            public string BatteryModel
+            {
+                get { return this.battery_model; }
+                set { this.battery_model = value; }
+            }
+
+            public double IdleTime
+            {
+                get { return this.idle_time; }
+                set { this.idle_time = value; }
+            }
+
+            public double HoursTalk
+            {
+                get { return this.hours_talk; }
+                set { this.hours_talk = value; }
+            }
+
+            public void Display()
+            {
+                Console.WriteLine("Battery info");
+                Console.WriteLine("Battery model: " + this.battery_model);
+                Console.WriteLine("Idle time: " + this.idle_time);
+                Console.WriteLine("Hours talk: " + this.hours_talk);
+                Console.WriteLine("Battery type: " + this.battery_type);
+                Console.WriteLine();
+            }
+        }
+
+        public struct Screen
+        {
+            private int colors;
+            private string size;
+
+            /*
+            public Screen(int c, string s)
+            {
+                this.colors = c;
+                this.size = s;
+            }
+            */
+
+            public int Colors
+            {
+                get { return this.colors; }
+                set { this.colors = value; }
+            }
+
+            public string Size
+            {
+                get { return this.size; }
+                set { this.size = value; }
+            }
+
+            public void Display()
+            {
+                Console.WriteLine("Display info");
+                Console.WriteLine("Colors: " + this.colors);
+                Console.WriteLine("Size: " + this.size);
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+
+++++++++++++++++++++++++++ main.cs +++++++++++++++++++++++++
+
+using System;
+
+namespace Phone
+{
+    class StudentTest
+    {
+        static void Main()
+        {
+            MobilePhone myMobilePhone = new MobilePhone();
+            myMobilePhone.Display();
+            myMobilePhone.battery.Display();
+            myMobilePhone.screen.Display();
+            myMobilePhone.battery.BatteryModel = "Moulin Rouge";
+            string current_battery = myMobilePhone.battery.BatteryModel;
+            myMobilePhone.battery.Battery_Type = MobilePhone.Battery.BatteryType.NiCd;
+            myMobilePhone.battery.Display();
+        }
+    }
+}

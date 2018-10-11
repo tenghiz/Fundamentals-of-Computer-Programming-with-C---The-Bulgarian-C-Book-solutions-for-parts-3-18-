@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> myList = new List<int>();
+        Random rnd = new Random();
+        int leng = 10;
+        for (int i = 0; i < leng; i++)
+        {
+            int z = rnd.Next(-10, 10);
+            myList.Add(z);
+        }
+        Console.WriteLine("Generated list: ");
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+        for (int i = 0; i<leng;i++)
+        {
+            if (myList[i] < 0)
+            {
+                myList.Remove(myList[i]);
+                leng--;
+                i--;
+            }
+        }
+        Console.WriteLine("Modified list: ");
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+    }
+}

@@ -1,0 +1,141 @@
+================== class.cs ================
+
+using System;
+
+namespace CircularQueue_
+{
+    class CircularQueue<T>
+    {
+        static int default_size = 4;
+        private int size;
+        private T[] arr;
+        static int count = 0;
+        private int head_index = 0;
+        private int tail_index = 0;
+
+        public CircularQueue()
+        {
+            size = default_size;
+            arr = new T[size];
+            count = 0;
+            head_index = 0;
+            tail_index = -1; // the trickyest part
+        }
+
+        public void Enqueu(T item)
+        {
+            if (count == size)
+            {
+                T[] arr_new = new T[size + default_size];
+                for (int i = 0; i < size; i++)
+                {
+                    arr_new[i] = arr[i];
+                }
+                arr = null;
+                size += default_size;
+                arr = new T[size];
+                for (int i = 0; i < size; i++)
+                {
+                    arr[i] = arr_new[i];
+                }
+                arr_new = null;
+            }
+            if (tail_index < (size - 1))
+            {
+                tail_index++;
+                arr[tail_index] = item;
+                count++;
+            }
+            if (tail_index == (size-1) && count < size)
+            {
+                tail_index = 0;
+                arr[tail_index] = item;
+                count++;
+            }
+        }
+
+        public T Dequeue()
+        {
+            if (count == 0)
+            {
+                Console.WriteLine("Queue is empty!");
+                return default(T);
+            }
+            T result = arr[head_index];
+            arr[head_index] = default(T);
+            if (count == 1)
+            {
+                count = 0;
+                head_index = 0;
+                tail_index = -1;
+                size = default_size;
+                arr = new T[size];
+            }
+            else if (count > 1 && head_index < (size-1))
+            {
+                head_index++;
+                count--;
+            }
+            else if (count > 1 && head_index == (size - 1))
+            {
+                head_index = 0;
+                count--;
+            }
+            return result;
+        }
+
+        public T Peek()
+        {
+            return arr[head_index];
+        }
+    }
+}
+
+
+================ main.cs ===================
+
+using System;
+using System.Collections;
+
+namespace CircularQueue_
+{
+    class Program
+    {
+        static void Main()
+        {
+            CircularQueue<int> myQueue = new CircularQueue<int>();
+            myQueue.Enqueu(2);
+            myQueue.Enqueu(7);
+            myQueue.Enqueu(1);
+            myQueue.Enqueu(9);
+            int z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            myQueue.Enqueu(15);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            myQueue.Enqueu(4);
+            myQueue.Enqueu(2);
+            myQueue.Enqueu(7);
+            myQueue.Enqueu(1);
+            myQueue.Enqueu(9);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            z = myQueue.Dequeue();
+            Console.WriteLine(z);
+            myQueue.Enqueu(2);
+            myQueue.Enqueu(7);
+        }
+    }
+}

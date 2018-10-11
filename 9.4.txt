@@ -1,0 +1,31 @@
+using System;
+class DigitFrequencyClass
+{
+
+    static int DigitFrequency(int [] arr, int arr_length, int x)
+    {
+        int counter = 0;
+        for (int i = 0;i<arr_length;i++)
+        {
+            if (arr[i] == x)
+                counter++;
+        }
+        return counter;
+    }
+    public static void Main()
+    {
+        Random rnd = new Random();
+        int arr_length = rnd.Next(1,30); 
+        int[] arr = new int[arr_length];
+        Console.WriteLine("Generated array: ");
+        for (int i = 0;i<arr_length;i++)
+        {
+            arr[i] = rnd.Next(1, 30);
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        int desired_number = rnd.Next(1, 30);
+        int f = DigitFrequency(arr, arr_length, desired_number);
+        Console.WriteLine("Array has " + f + " counts of " + desired_number);
+    }
+}

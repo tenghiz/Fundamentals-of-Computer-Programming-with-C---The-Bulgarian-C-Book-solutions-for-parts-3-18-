@@ -1,0 +1,25 @@
+//12.10 - This program reads a text file as a binary file
+
+using System;
+using System.IO;
+
+class ExceptionsDemo
+{
+    static void Main()
+    {
+        string fileName = "D:\\bulgar\\12.7.txt";
+        FileStream fs = new FileStream(fileName, FileMode.Open);
+        BinaryReader br = new BinaryReader(fs);
+        StreamWriter sw = new StreamWriter("D:\\bulgar\\copy.txt");
+        byte value = 0;
+        while(br.BaseStream.Position < br.BaseStream.Length)
+        {
+            value = br.ReadByte();
+            Console.Write((char)value + " "); // char cast allows to transform value to readable ASCII
+            sw.Write(value + " "); // here casting CHAR is not allowed
+        }
+        br.Close();
+        fs.Close();
+        sw.Close();
+    }
+}

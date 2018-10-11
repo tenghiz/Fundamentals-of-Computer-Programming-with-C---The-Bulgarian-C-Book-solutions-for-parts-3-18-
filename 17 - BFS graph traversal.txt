@@ -1,0 +1,96 @@
+===================== class.cs =========================
+
+using System;
+using System.Collections.Generic;  
+ 
+namespace Graph_
+{
+    public class Graph
+    {
+        private List<int>[] childNodes;
+        
+        public Graph(int size)
+        {
+            this.childNodes = new List<int>[size];
+            for (int i = 0; i < size; i++)
+            {
+                this.childNodes[i] = new List<int>();
+            }
+        }
+ 
+        public Graph(List<int>[] childNodes)
+        {
+            this.childNodes = childNodes;
+        }
+ 
+        public int Size
+        {
+            get { return this.childNodes.Length; }
+        }
+  
+        public void AddEdge(int u, int v)
+        {
+            childNodes[u].Add(v);
+        }
+    
+        public void RemoveEdge(int u, int v)
+        {
+            childNodes[u].Remove(v);
+        }
+    
+        public bool HasEdge(int u, int v)
+        {
+            bool hasEdge = childNodes[u].Contains(v);
+            return hasEdge;
+        }
+   
+        public IList<int> GetSuccessors(int v)
+        {
+            return childNodes[v];
+        }
+    }
+}
+
+==================== main.cs ===========
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    class GraphComponents
+    {
+        static Graph graph = new Graph(new List<int>[] {
+new List<int>() {3,4,5}, // successors of vertice 0
+new List<int>() {2, 6}, // successors of vertice 1
+new List<int>() {1, 4,5, 6}, // successors of vertice 2
+new List<int>() {0,4,6}, // successors of vertice 3
+new List<int>() {0,2,3,5,6}, // successors of vertice 4
+new List<int>() {0,2, 4}, // successors of vertice 5
+new List<int>() {1, 2, 3,4} // successors of vertice 6
+});
+
+        static void TraverseBFS(int v, int u)
+        {
+            Queue<int> VisitedNodes = new Queue<int>();
+            VisitedNodes.Enqueue(v);
+            while (VisitedNodes.Count>0)
+            {
+                int CurrentNode = VisitedNodes.Dequeue();
+                Console.WriteLine(CurrentNode);
+                if (CurrentNode == u)
+                    break;
+                foreach (int child in graph.GetSuccessors(CurrentNode))
+                {
+                    VisitedNodes.Enqueue(child);
+                }
+            }
+        }
+        static void Main()
+        {
+            Console.WriteLine("Connected graph components: ");
+            TraverseBFS(5,6);
+            Console.WriteLine();
+        }
+    }
+}

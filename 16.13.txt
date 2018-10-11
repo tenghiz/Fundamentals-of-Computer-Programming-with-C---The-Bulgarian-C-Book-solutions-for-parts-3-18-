@@ -1,0 +1,143 @@
+================= class.cs ========================
+
+using System;
+
+namespace Deque_
+{
+    class Deque<T>
+    {
+        private class Node
+        {
+            public T item { get; set; }
+            public Node next { get; set; }
+
+            public Node(T item)
+            {
+                this.item = item;
+                next = null;
+            }
+
+            public Node(T item, Node prevNode)
+            {
+                this.item = item;
+                prevNode.next = this;
+            }
+        }
+
+        private Node front;
+        private Node rear;
+        private int size;
+
+        public Deque()
+        {
+            this.size = 0;
+            this.front = null;
+            this.rear = null;
+        }
+
+        public void Enqueue(T item)
+        {
+            if (front == null)
+            {
+                this.front = new Node(item);
+                this.rear = this.front;
+            }
+            else
+            {
+                Node newNode = new Node(item, this.rear);
+                this.rear = newNode;
+            }
+            this.size++;
+        }
+
+        public T DequeueFront()
+        {
+            if (size == 0)
+            {
+                throw new Exception("Queue is empty!!!");
+            }
+            this.size--;
+            T result = this.front.item;
+            if (size == 0)
+            {
+                this.front = null;
+                this.rear = null;
+            }
+            else
+            {
+                this.front = this.front.next;
+            }
+            return result;
+        }
+
+        public T DequeueRear()
+        {
+            if (size == 0)
+            {
+                throw new Exception("Queue is empty!!!");
+            }
+            T result = this.rear.item;
+            if (size == 0)
+            {
+                this.front = null;
+                this.rear = null;
+            }
+            else
+            {
+                int currentIndex = 0;
+                Node currentNode = this.front;
+                Node prevNode = null;
+                while (currentIndex < size)
+                {
+                    prevNode = currentNode;
+                    currentNode = currentNode.next;
+                    currentIndex++;
+                }
+                prevNode.next = null;
+                this.size--;
+            }
+            return result;
+        }
+
+        public int Size
+        {
+            get { return this.size; }
+        }
+
+        public void Clear()
+        {
+            this.size = 0;
+            this.front = null;
+            this.rear = null;
+        }
+    }
+}
+
+
+================ main.cs ======================
+
+using System;
+using System.Collections;
+
+namespace Deque_
+{
+    class Program
+    {
+        static void Main()
+        {
+            Deque<int> myDeque = new Deque<int>();
+            myDeque.Enqueue(5);
+            myDeque.Enqueue(17);
+            myDeque.Enqueue(25);
+            Console.WriteLine("Queue holds " + myDeque.Size + " elements");
+            int z = myDeque.DequeueRear();
+            Console.WriteLine(z);
+            z = myDeque.DequeueFront();
+            Console.WriteLine(z);
+            z = myDeque.DequeueFront();
+            Console.WriteLine(z);
+            z = myDeque.DequeueFront();
+            Console.WriteLine(z);
+        }
+    }
+}

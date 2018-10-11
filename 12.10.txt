@@ -1,0 +1,29 @@
+//12.10 - This program reads a text file content and copies it to another file
+
+using System;
+using System.IO;
+
+class ExceptionsDemo
+{
+    static void Main()
+    {
+        string fileName = "D:\\bulgar\\12.7.txt";
+        ReadFile(fileName);
+    }
+    static void ReadFile(string fileName)
+    {
+        
+        TextReader reader = new StreamReader(fileName);
+        string line = reader.ReadToEnd();
+        Console.WriteLine(line);
+        WriteFile(line);
+        reader.Close();
+    }
+
+    static void WriteFile(string x)
+    {
+        TextWriter writer = new StreamWriter("D:\\bulgar\\copy.txt");
+        writer.Write(x);
+        writer.Close();
+    }
+}

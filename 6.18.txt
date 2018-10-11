@@ -1,0 +1,71 @@
+using System;
+class SpiralMatrix
+{
+    static void Main()
+    {
+        Console.Write("Please enter a number: ");
+        string s = Console.ReadLine();
+        int number = int.Parse(s);
+        int[,] arr = new int[number,number];
+        int z = number * number;
+        int counter = 1;
+        int j = 0;
+        while(counter <= z)
+        {
+            // to the right
+            for (int i = 0; i<number;i++)
+            {
+                if (arr[j, i] == 0)
+                {
+                    arr[j, i] = counter;
+                    counter++;
+                } 
+                else
+                    continue;
+            }
+            // downwards
+            for (int i = 0; i < number; i++)
+            {
+                if (arr[i, number - 1 - j] == 0)
+                {
+                    arr[i, number - 1 - j] = counter;
+                    counter++;
+                }
+                else
+                    continue;
+            }
+            // to the left
+            for (int i = number-1; i > -1; i--)
+            {
+                if (arr[number - 1-j, i] == 0)
+                {
+                    arr[number - 1-j, i] = counter;
+                    counter++;
+                }
+                else
+                    continue;
+            }
+            // upwards
+            for (int i = number - 1; i > -1; i--)
+            {
+                if (arr[i,j] == 0)
+                {
+                    arr[i,j] = counter;
+                    counter++;
+                }
+                else
+                    continue;
+            }
+            j++;
+        }
+        Console.WriteLine();
+        for (int i = 0;i<number;i++)
+        {
+            for (int k = 0; k < number; k++)
+                Console.Write(arr[i, k] + "\t");
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+        Console.WriteLine();
+    }
+}

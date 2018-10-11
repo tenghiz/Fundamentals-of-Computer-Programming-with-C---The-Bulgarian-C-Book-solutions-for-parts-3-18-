@@ -1,0 +1,27 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        Console.WriteLine("Please enter an arithmetic expression: ");
+        string s = Console.ReadLine();
+        int z = s.Length;
+        int counter = 0;
+        for (int i = 0;i<z;i++)
+        {
+            if (s[i] == '(')
+                counter++;
+        }
+        for (int i = 0; i<z;i++)
+        {
+            if (s[i] == ')')
+                counter--;
+        }
+        if (counter != 0)
+            Console.WriteLine("ERROR! Check incorrect brackets");
+        else
+            Console.WriteLine("Expression is correct");
+    }
+}

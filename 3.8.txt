@@ -1,0 +1,28 @@
+using System;
+class Swap
+{
+    public static void Main()
+    {
+        // check whether the point is inside the circle
+        Console.Write("Please enter the radius of a circle: ");
+        string g = Console.ReadLine();
+        int h = int.Parse(g);
+        Console.Write("Please enter the coordinate X of the center of circle: ");
+        string i = Console.ReadLine();
+        int j = int.Parse(i);
+        Console.Write("Please enter the coordinate Y of the center of circle: ");
+        string k = Console.ReadLine();
+        int l = int.Parse(k);
+        Console.Write("Please enter the coordinate X of the point: ");
+        string m = Console.ReadLine();
+        int n = int.Parse(m);
+        Console.Write("Please enter the coordinate Y of the point: ");
+        string o = Console.ReadLine();
+        int p = int.Parse(o);
+        if ((n-j)<=h && (p-l)<=h)
+            Console.WriteLine("The point is within the circle");
+        else
+            Console.WriteLine("The point is out of the circle");
+        Console.WriteLine();
+    }
+}

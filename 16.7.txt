@@ -1,0 +1,66 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> myList = new List<int>();
+        Random rnd = new Random();
+        int leng = 20;
+        int range = 10;
+        for (int i = 0; i < leng; i++)
+        {
+            int z = rnd.Next(0, range);
+            myList.Add(z);
+        }
+        Console.WriteLine("Generated list: ");
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+        Console.WriteLine("Sorted list: ");
+        myList.Sort();
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+        List<int> occurencies = new List<int>(); // even points to number, odd points to its frequency
+        int myList_index = 0;
+        int value = myList[myList_index];
+        myList_index++;
+        int counter = 1;
+        while(true)
+        {
+            if (myList[myList_index] == value)
+            {
+                counter++;
+            }
+            if (myList[myList_index] != value)
+            {
+                occurencies.Add(value);
+                occurencies.Add(counter);
+                value = myList[myList_index];
+                counter = 1;
+            }
+            myList_index++;
+            if (myList_index == leng)
+            {
+                occurencies.Add(value);
+                occurencies.Add(counter);
+                break;
+            }
+        }
+        Console.WriteLine("Frequency: ");
+        int a = occurencies.Count;
+        counter = 0;
+        while(counter < a)
+        {
+            Console.Write ("Value " + occurencies[counter]);
+            counter++;
+            Console.Write(" appears " + occurencies[counter] + " times");
+            counter++;
+            Console.WriteLine();
+        }
+    }
+}

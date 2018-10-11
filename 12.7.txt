@@ -1,0 +1,19 @@
+//12.7 - This program doesn't allow to print BYE message after exception was thrown
+
+using System;
+
+class SquareRoot
+{
+    static void Main()
+    {
+        Console.Write("Please enter the number: ");
+        double z = double.Parse(Console.ReadLine());
+        if (z < 0)
+        {
+            throw new ApplicationException("Negative numbers are not allowed!");
+        }
+        double x = Math.Sqrt(z);
+        Console.WriteLine("The square root is " + x);
+        Console.WriteLine("Bye!");
+    }
+}

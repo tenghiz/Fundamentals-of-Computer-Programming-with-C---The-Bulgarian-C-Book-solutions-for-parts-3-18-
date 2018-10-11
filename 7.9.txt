@@ -1,0 +1,54 @@
+using System;
+
+class MaximalSumSequence
+{
+    public static void Main()
+    {
+        Console.Write("Please enter the maximal length of array: ");
+        int z = int.Parse(Console.ReadLine());
+        Random rnd = new Random();
+        int sum = 0;
+        int[] arr = new int[z];
+        for (int i = 0; i < z; i++)
+        {
+            arr[i] = rnd.Next(-10, 10);
+            Console.Write(" " + arr[i]);
+            sum += arr[i];
+        }
+        Console.WriteLine();
+        Console.WriteLine("The sum of array is " + sum);
+        int last_element=0;
+        for (int i = 0; i<z;i++)
+        {
+            int new_sum = 0;
+            for (int j = i; j<z;j++)
+            {
+                new_sum += arr[j];
+                if (new_sum > sum)
+                {
+                    sum = new_sum;
+                    last_element = j;
+                }
+            }
+        }
+        int[] subarray = new int[z];
+        int sum1 = 0;
+        int m = z-1;
+        for (int k = last_element; k>-1; k--)
+        {
+            subarray[m] = arr[k];
+            m--;
+            sum1 += subarray[m];
+            if (sum1 == sum)
+                break;
+        }
+        Console.Write("The sum of sequence { ");
+        for (int i = 0; i<z;i++)
+        {
+            if (subarray[i] != 0)
+                Console.Write(subarray[i] + " ");
+        }
+        Console.WriteLine("} has the maximal sum of " + sum);
+        Console.WriteLine();
+    }
+}

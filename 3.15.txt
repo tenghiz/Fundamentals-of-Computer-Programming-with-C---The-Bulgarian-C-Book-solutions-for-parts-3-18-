@@ -1,0 +1,44 @@
+using System;
+class ExchangeBit
+{
+    public static void Main()
+    {
+        Console.WriteLine("This program will exchange bit values on positions 1,2 with bits on positions 6,5");
+        Console.Write("Please enter a number between 0 and 255: ");
+        string q = Console.ReadLine();
+        int num = int.Parse(q);
+        int arr_length = 8;
+        int[] arr = new int[arr_length];
+        int i = arr_length - 1;
+        while (num != 0)
+        {
+            arr[i] = num % 2;
+            num /= 2;
+            i--;
+        }
+        Console.WriteLine("Number in binary form: " );
+        for (int j = 0; j < arr_length; j++)
+            Console.Write(arr[j]);
+        Console.WriteLine();
+        Console.WriteLine("Swap bits. New number is: ");
+        int temp = arr[1];
+        arr[1] = arr[6];
+        arr[6] = temp;
+        temp = arr[2];
+        arr[2] = arr[5];
+        arr[5] = temp;
+        for (int j = 0; j < arr_length; j++)
+            Console.Write(arr[j]);
+        Console.WriteLine();
+        Console.Write("Integer form: ");
+        int sum = 0;
+        sum += arr[arr_length - 1];
+        int two = 2;
+        for (int k = arr_length-2; k> -1;k--)
+        {
+            sum += two * (arr[k]);
+            two *= 2;
+        }
+        Console.WriteLine(sum);
+    }
+}

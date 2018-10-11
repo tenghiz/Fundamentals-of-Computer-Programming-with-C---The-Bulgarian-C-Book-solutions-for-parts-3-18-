@@ -1,0 +1,166 @@
+// StackOverflow - RMalke (slight modifications)
+
+=============================== class.cs ========================
+
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace Graph_
+{
+    public class Arc
+    {
+        public int Weight;
+        public Node Parent;
+        public Node Child;
+    }
+
+    public class Node
+    {
+        public string Name;
+        public List<Arc> Arcs = new List<Arc>();
+
+        public Node (string name)
+        {
+            this.Name = name;
+        }
+
+        public IList<Arc> GetSuccessors()
+        {
+            return this.Arcs;
+        }
+
+        public void AddArc(Node child, int w)
+        {
+            Arcs.Add(new Arc
+            {
+                Parent = this,
+                Child = child,
+                Weight = w
+            });
+        }
+
+        public void DeleteArc(Node child)
+        {
+            if (Arcs.Any(a => a.Parent == this && a.Child == child))
+                Arcs.RemoveAll(a => a.Parent == this && a.Child == child);
+            else
+                Console.WriteLine("There is no such arc!");
+        }
+    }
+
+    public class Graph
+    {
+        public Node Root;
+        public List<Node> AllNodes = new List<Node>();
+
+        public Node CreateNode(string name)
+        {
+            var n = new Node(name);
+            AllNodes.Add(n);
+            return n;
+        }
+
+        public Node CreateRoot(string name)
+        {
+            Root = CreateNode(name);
+            return Root;
+        }
+
+        public int?[,] CreateAdjMatrix()
+        {
+            int?[,] adj = new int?[AllNodes.Count, AllNodes.Count];
+            for (int i = 0;i< AllNodes.Count; i++)
+            {
+                Node n1 = AllNodes[i];
+                for (int j = 0; j < AllNodes.Count; j++)
+                {
+                    Node n2 = AllNodes[j];
+                    var arc = n1.Arcs.FirstOrDefault(a => a.Child == n2);
+                    if (arc != null)
+                    {
+                        adj[i, j] = arc.Weight;
+                    }
+                }
+            }
+            return adj;
+        }
+
+        public void PrintMatrix(ref int?[,] matrix)
+        {
+            Console.Write("       ");
+            for (int i = 0; i < AllNodes.Count; i++)
+            {
+                Console.Write("{0}  ", AllNodes[i].Name);
+            }
+            Console.WriteLine();
+            for (int i = 0; i < AllNodes.Count; i++)
+            {
+                Console.Write("{0} | [ ", AllNodes[i].Name);
+                for (int j = 0; j < AllNodes.Count; j++)
+                {
+                    if (matrix[i, j] == null)
+                    {
+                        Console.Write(" .,");
+                    }
+                    else
+                    {
+                        Console.Write(" {0},", matrix[i, j]);
+                    }
+                }
+                Console.Write(" ]\r\n");
+            }
+            Console.Write("\r\n");
+        }
+    }
+}
+
+
+
+================= main.cs =========================
+
+using System;
+using System.Collections.Generic;
+
+namespace Graph_
+{
+    class Program
+    {
+        static void Main()
+        {
+            var graph = new Graph();
+            var a1 = graph.CreateRoot("1");
+            var b2 = graph.CreateNode("2");
+            var c3 = graph.CreateNode("3");
+            var d4 = graph.CreateNode("4");
+            var e5 = graph.CreateNode("5");
+            var f6 = graph.CreateNode("6");
+
+            a1.AddArc(b2, 1);
+            a1.AddArc(e5, 1);
+
+            b2.AddArc(c3, 1);
+            b2.AddArc(e5, 1);
+
+            c3.AddArc(d4, 1);
+
+            d4.AddArc(e5, 1);
+            d4.AddArc(f6, 1);
+
+            e5.AddArc(f6, 1);
+            
+            int?[,] adj = graph.CreateAdjMatrix();
+            graph.PrintMatrix(ref adj);
+
+            Console.WriteLine();
+
+            // Please re-create the matrix after deleting an element
+            
+            a1.DeleteArc(b2);
+            adj = graph.CreateAdjMatrix();
+            graph.PrintMatrix(ref adj);
+        } 
+    }
+}

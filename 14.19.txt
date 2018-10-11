@@ -1,0 +1,202 @@
+========================== class.cs =============================
+
+using System;
+using System.Text;
+
+namespace Call_
+{
+    class Call
+    {
+        private DateTime start;
+        private DateTime finish;
+        private TimeSpan duration;
+        static object[,] CallHistory;
+        static int number_of_calls = 0;
+        static double total_cost = 0;
+        static double price_per_minute = 0;
+
+        // constructor
+        public Call(string s, string f)
+        {
+            this.start = DateTime.ParseExact(s, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.finish = DateTime.ParseExact(f, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.duration = finish - start;
+            number_of_calls++;
+            double cost = (duration.TotalMinutes) * price_per_minute;
+            total_cost += cost;
+            string call_info = s + ", " + f + ", " + cost.ToString("#0.00") + " dollars;";
+            History(call_info, duration.TotalMinutes);
+        }
+
+        public static double PricePerMinute
+        {
+            get { return price_per_minute; }
+            set { price_per_minute = value; }
+        }
+
+        public static void History(string call_info, double total_min)
+        {
+            if (number_of_calls == 1)
+            {
+                CallHistory = new object[1,2] { { call_info, total_min } };
+            }
+            else
+            {
+                object[,] CallHistory1 = new object[number_of_calls, 2];
+                for (int i = 0; i < number_of_calls - 1; i++)
+                {
+                    for (int j = 0;j<2;j++)
+                    {
+                        CallHistory1[i, j] = CallHistory[i, j];
+                    }
+                    
+                }
+                CallHistory1[number_of_calls - 1, 0] = call_info;
+                CallHistory1[number_of_calls - 1, 1] = total_min;
+                CallHistory = new object[number_of_calls, 2];
+                for (int i = 0; i < number_of_calls; i++)
+                {
+                    for (int j = 0; j < 2; j++)
+                    {
+                        CallHistory[i, j] = CallHistory1[i, j];
+                    }
+                }
+            }
+        }
+
+        public static void DeleteEntry(int x)
+        {
+            total_cost -= (double)(CallHistory[x, 1]) * price_per_minute;
+            CallHistory[x, 0] = null;
+            CallHistory[x, 1] = null;
+            object[,] CallHistory1 = new object[number_of_calls-1, 2];
+            int j = 0;
+            for (int i = 0;i< number_of_calls;i++)
+            {
+                if (CallHistory[i, 0] != null)
+                {
+                    for (int k = 0; k < 2; k++)
+                        CallHistory1[j, k] = CallHistory[i, k];
+                    j++;
+                }
+            }
+            number_of_calls--;
+            CallHistory = new object[number_of_calls, 2];
+            for (int i = 0; i < number_of_calls; i++)
+            {
+                for (int k = 0; k < 2; k++)
+                {
+                    CallHistory[i, k] = CallHistory1[i, k];
+                }
+            }
+        }
+
+        public static void DeleteLongestConversation()
+        {
+            int counter = 0;
+            double max = (double)CallHistory[0, 1];
+            for (int i = 1;i<number_of_calls;i++)
+            {
+                if ((double)CallHistory[i, 1] > max)
+                {
+                    max = (double)CallHistory[i, 1];
+                    counter = i;
+                }
+            }
+            DeleteEntry(counter);
+        }
+
+        public static void DeleteHistory()
+        {
+            Console.WriteLine("Deleting call history...");
+            for (int i = 0; i < number_of_calls; i++)
+            {
+                for (int j = 0; j < 2; j++)
+                {
+                    CallHistory[i, j] = null;
+                }
+            }
+            number_of_calls = 0;
+            total_cost = 0;
+            CallHistory = new object[0, 0];
+        }
+
+        public static void DisplayHistory()
+        {
+            Console.WriteLine("Call history: ");
+            for (int j = 0; j < number_of_calls; j++)
+            {
+                Console.WriteLine(j + " : " + (string)CallHistory[j, 0] + " " + ((double)CallHistory[j, 1]).ToString("#0.00") + " min;");
+            }
+            Console.WriteLine("Total price is " + total_cost.ToString("#0.00"));
+            Console.WriteLine();
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("The call started " + this.start);
+            Console.WriteLine("The call finished " + this.finish);
+            Console.WriteLine("Duration of the call: ");
+            Console.Write(this.duration.Days + " days, ");
+            Console.Write(this.duration.Hours + " hours, ");
+            Console.Write(this.duration.Minutes + " minutes, ");
+            Console.Write(this.duration.Seconds + " seconds.");
+            Console.WriteLine();
+            DisplayHistory();
+        }
+    }
+}
+
+
+======================== main.cs =============================
+
+using System;
+
+namespace Call_
+{
+    class CallTest
+    {
+        static void Main()
+        {
+            Console.Write("Please set the price of phone call in $/min: ");
+            string price = Console.ReadLine();
+            Call.PricePerMinute = double.Parse(price);
+            while (true)
+            {
+                Console.Write("Press any key to continue, N to exit: ");
+                string s = Console.ReadLine();
+                if (s[0] == 'n' || s[0] == 'N')
+                    break;
+                Console.WriteLine("Please enter the date in a following format: yyyy-MM-dd HH:mm:ss");
+                Console.Write("Please enter the start time: ");
+                string start = Console.ReadLine();
+                Console.Write("Please enter the finish time: ");
+                string finish = Console.ReadLine();
+                Call myCall = new Call(start, finish);
+                myCall.Display();
+                Console.Write("Would you like to delete entry? Y/N: ");
+                string p = Console.ReadLine();
+                if (p[0] == 'Y' || p[0] == 'y')
+                {
+                    Console.Write("Please enter the number of entry to delete: ");
+                    string n = Console.ReadLine();
+                    Call.DeleteEntry(Int32.Parse(n));
+                }
+            }
+            Console.Write("Would you like to delete the longest conversation? Y/N: ");
+            string q = Console.ReadLine();
+            if (q[0] == 'Y' || q[0] == 'y')
+            {
+                Call.DeleteLongestConversation();
+                Call.DisplayHistory();
+            }
+            Console.Write("Would you like to delete all calls from archive? Y/N: ");
+            string m = Console.ReadLine();
+            if (m[0] == 'Y' || m[0] == 'y')
+            {
+                Call.DeleteHistory();
+                Call.DisplayHistory();
+            }
+        }
+    }
+}

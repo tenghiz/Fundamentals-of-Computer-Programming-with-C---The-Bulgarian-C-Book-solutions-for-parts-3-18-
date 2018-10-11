@@ -1,0 +1,180 @@
+================================= class.cs ================================
+
+using System;
+
+namespace Lib
+{
+    class Library
+    {
+        private string name;
+        static Book[] books;
+        static int number_of_books = 0;
+
+        public Library(string n)
+        {
+            this.name = n;
+        }
+
+        public void AddBook()
+        {
+            number_of_books++;
+            Console.WriteLine("Add new book");
+            Console.Write("Title: ");
+            string title = Console.ReadLine();
+            Console.Write("Author: ");
+            string author = Console.ReadLine();
+            Console.Write("Publishing date: ");
+            string date = Console.ReadLine();
+            Console.Write("Publisher: ");
+            string publisher = Console.ReadLine();
+            Console.Write("ISBN: ");
+            string isbn = Console.ReadLine();
+            if (number_of_books == 1)
+            {
+                books = new Book[1];
+                books[0] = new Book(author, title, date, publisher, isbn);
+            }
+            else
+            {
+                Book[] books1 = new Book[number_of_books];
+                for (int i = 0;i<number_of_books-1;i++)
+                {
+                    books1[i] = books[i];
+                }
+                books1[number_of_books-1] = new Book(author, title, date, publisher, isbn);
+                books = new Book[number_of_books];
+                for (int i = 0; i < number_of_books; i++)
+                {
+                    books[i] = books1[i];
+                }
+            }
+        }
+
+        public void SearchBook(string auth)
+        {
+            for (int i = 0; i<number_of_books;i++)
+            {
+                if (books[i].Author == auth)
+                {
+                    Console.WriteLine("Found: ");
+                    books[i].DisplayBook();
+                }
+            }
+        }
+
+        public void DeleteBook(string author, string name)
+        {
+            for (int i = 0; i < number_of_books; i++)
+            {
+                if (books[i].Author == author && books[i].Title == name)
+                {
+                    books[i] = null;
+                }
+            }
+            Book[] books1 = new Book[number_of_books-1];
+            int counter = 0;
+            for (int i = 0; i< number_of_books;i++)
+            {
+                if (books[i] != null)
+                {
+                    books1[counter] = books[i];
+                    counter++;
+                }
+            }
+            number_of_books--;
+            books = new Book[number_of_books];
+            for (int i = 0; i < number_of_books; i++)
+            {
+                books[i] = books1[i];
+            }
+        }
+
+        public void DisplayCollection()
+        {
+            Console.WriteLine("Current collection");
+            for (int i = 0; i < number_of_books; i++)
+                books[i].DisplayBook();
+        }
+    }
+
+    class Book
+    {
+        private string title;
+        private string author;
+        private string publisher;
+        private string release_date;
+        private string ISBN;
+
+        public Book(string auth, string tit, string date = "unknown", string publish = "unknown", string isbn = "unknown")
+        {
+            this.title = tit;
+            this.author = auth;
+            this.publisher = publish;
+            this.release_date = date;
+            this.ISBN = isbn;
+        }
+
+        public string Title
+        {
+            get { return this.title; }
+        }
+
+        public string Author
+        {
+            get { return this.author; }
+        }
+
+        public void DisplayBook()
+        {
+            Console.WriteLine("Title: " + this.title);
+            Console.WriteLine("Author: " + this.author);
+            Console.WriteLine("Publisher: " + this.publisher);
+            Console.WriteLine("Release date: " + this.release_date);
+            Console.WriteLine("ISBN: " + this.ISBN);
+            Console.WriteLine();
+        }
+    }
+}
+
+
+====================== main.cs =============================
+
+using System;
+
+namespace Lib
+{
+    class LibTest
+    {
+        static void Main()
+        {
+            Library myLibrary = new Library("Princeton");
+            while(true)
+            {
+                Console.Write("Press any key to continue, N to exit: ");
+                string key = Console.ReadLine();
+                if (key[0] == 'n' || key[0] == 'N')
+                    break;
+                myLibrary.AddBook();
+                Console.Write("Do you need a query service? Y/N: ");
+                string query = Console.ReadLine();
+                if (query[0] == 'Y' || query[0] == 'y')
+                {
+                    Console.Write("Please enter author's name: ");
+                    string name = Console.ReadLine();
+                    myLibrary.SearchBook(name);
+                }
+                Console.Write("Would you like to delete a book? Y/N: ");
+                string delete = Console.ReadLine();
+                if (delete[0] == 'Y' || delete[0] == 'y')
+                {
+                    Console.Write("Please enter author's name: ");
+                    string author = Console.ReadLine();
+                    Console.Write("Please enter book's title: ");
+                    string title = Console.ReadLine();
+                    myLibrary.DeleteBook(author, title);
+                }
+                myLibrary.DisplayCollection();
+            }
+        }
+    }
+}

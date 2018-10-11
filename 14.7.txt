@@ -1,0 +1,140 @@
+// create separate .cs file for Student class
+// create separate .cs file for Test class
+
+*********************** student.cs ********************
+
+using System;
+
+namespace StundentNameSpace
+{
+    class Student
+    {
+        static int students_number = 0;
+
+        private string full_name;
+        private string course;
+        private string subject;
+        private string university;
+        private string email;
+        private string phone_number;
+
+        // properties
+        public string FullName
+        {
+            get { return this.full_name; }
+            set { this.full_name = value; }
+        }
+
+        public string Course
+        {
+            get { return this.course; }
+            set { this.course = value; }
+        }
+
+        public string Subject
+        {
+            get { return this.subject; }
+            set { this.subject = value; }
+        }
+
+        public string University
+        {
+            get { return this.university; }
+            set { this.university = value; }
+        }
+
+        public string Email
+        {
+            get { return this.email; }
+            set { this.email = value; }
+        }
+
+        public string PhoneNumber
+        {
+            get { return this.phone_number; }
+            set { this.phone_number = value; }
+        }
+
+        // default constructor
+        public Student()
+        {
+            this.full_name = "unknown";
+            this.course = "unknown";
+            this.subject = "unknown";
+            this.university = "unknown";
+            this.email = "unknown";
+            this.phone_number = "unknown";
+            students_number++;
+        }
+
+        // constructor with parameters
+        public Student(string fn, string crs, string subj, string uni, string mail, string phone)
+        {
+            this.full_name = fn;
+            this.course = crs;
+            this.subject = subj;
+            this.university = uni;
+            this.email = mail;
+            this.phone_number = phone;
+            students_number++;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("Current number of students is " + students_number);
+            Console.WriteLine("Student's full information");
+            Console.WriteLine("Name: " + this.full_name);
+            Console.WriteLine("Course: " + this.course);
+            Console.WriteLine("Subject: " + this.subject);
+            Console.WriteLine("University: " + this.university);
+            Console.WriteLine("Email: " + this.email);
+            Console.WriteLine("Phone number: " + this.phone_number);
+            Console.WriteLine();
+        }
+
+    }
+}
+
+
+************************* test.cs ********************************
+
+using System;
+
+namespace StundentNameSpace
+{
+    class StudentTest
+    {
+        static void Main()
+        {
+            // test functionality of Student class
+            Student myStudent1 = new Student();
+            myStudent1.Display();
+            Student myStudent2 = new Student("A", "B", "C", "D", "E", "F");
+            myStudent2.Display();
+
+            // test functionality of StudentTest static member methods
+            GroupOfStudents(3); // create group of 3 students
+            group[2].FullName = "Romero Bull";
+            group[0].Subject = "Math";
+            group[1].Display();
+            group[0].Display();
+            group[2].Display();
+        }
+
+        // static fields
+        static Student[] group;
+
+        // static property is not necessary
+        // array members can be accessed via properties of Student class
+
+        // static method
+        static void GroupOfStudents(int x)
+        {
+            group = new Student[x];
+            for (int i = 0;i<x;i++)
+            {
+                group[i] = new Student();
+            }
+        }
+    }
+}

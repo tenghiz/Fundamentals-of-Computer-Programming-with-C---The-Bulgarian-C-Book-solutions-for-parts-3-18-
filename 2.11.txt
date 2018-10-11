@@ -1,0 +1,36 @@
+// this program writes isosceles triangle 
+
+class Triangle
+{
+    static void Main(string[] args)
+    {
+        int a = 10;
+        int b = 1;
+        int z = 0;
+        for (int i = 0;i<a;i++)
+        {
+            System.Console.Write(" ");
+        }
+        System.Console.Write('@');
+        System.Console.WriteLine();
+        for (int i = 0; i<a-1;i++)
+        {
+            for (int j = 0; j < a-b; j++)
+            {
+                System.Console.Write(" ");
+            }
+            System.Console.Write('@');
+            for (int k = 0; k < z+1; k++)
+                System.Console.Write(" ");
+            System.Console.WriteLine('@');
+            b++;
+            z +=2;
+        }
+        for (int i = 0; i < a+1; i++)
+        {
+            System.Console.Write("@ ");
+        }
+        System.Console.WriteLine();
+    }
+
+}

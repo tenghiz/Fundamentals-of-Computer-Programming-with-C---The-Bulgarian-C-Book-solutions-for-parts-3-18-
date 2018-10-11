@@ -1,0 +1,21 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+
+        string s = "We are living in a yellow submarine. We don't have anything else. Inside the submarine is very tight";
+        string pattern = "n";
+        int index = 0;
+        int counter = 0;
+        while (index != -1)
+        {
+            index = s.IndexOf(pattern, index + 1);
+            Console.WriteLine("Pattern found at position " + index);
+            counter++;
+        }
+        Console.WriteLine("Pattern found " + counter + " times");
+    }
+}

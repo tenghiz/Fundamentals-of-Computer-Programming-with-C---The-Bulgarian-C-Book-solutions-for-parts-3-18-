@@ -1,0 +1,131 @@
+====================== call.cs ========================
+
+using System;
+using System.Text;
+
+namespace Call_
+{
+    class Call
+    {
+        private DateTime start;
+        private DateTime finish;
+        private TimeSpan duration;
+        static string [] CallHistory;
+        static int number_of_calls = 0;
+
+        // constructor
+        public Call(string s, string f)
+        {
+            this.start = DateTime.ParseExact(s, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.finish = DateTime.ParseExact(f, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.duration = finish - start;
+            number_of_calls++;
+            string call_info = s + ", " + f + ", " + duration.ToString() + ";";
+            History(call_info);
+        }
+
+        static void History(string call_info)
+        {
+            if (number_of_calls == 1)
+            {
+                CallHistory = new string[1] { call_info };
+            }
+            else
+            {
+                string[] CallHistory1 = new string[number_of_calls];
+                for (int i = 0; i < number_of_calls - 1; i++)
+                {
+                    CallHistory1[i] = CallHistory[i];
+                }
+                CallHistory1[number_of_calls - 1] = call_info;
+                CallHistory = new string[number_of_calls];
+                for (int j = 0; j < number_of_calls; j++)
+                {
+                    CallHistory[j] = CallHistory1[j];
+                }
+            }
+        }
+
+        public static void DeleteEntry(int x)
+        {
+            CallHistory[x] = null;
+            string[] CallHistory1 = new string[number_of_calls-1];
+            int j = 0;
+            for (int i = 0;i< number_of_calls;i++)
+            {
+                if (CallHistory[i] != null)
+                {
+                    CallHistory1[j] = CallHistory[i];
+                    j++;
+                }
+            }
+            number_of_calls--;
+            CallHistory = new string[number_of_calls];
+            for (int k = 0; k < number_of_calls; k++)
+            {
+                CallHistory[k] = CallHistory1[k];
+            }
+        }
+
+        public static void DisplayHistory()
+        {
+            Console.WriteLine("Call history: ");
+            for (int j = 0; j < number_of_calls; j++)
+            {
+                Console.WriteLine(j + " : " + CallHistory[j]);
+            }
+            Console.WriteLine();
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("The call started " + this.start);
+            Console.WriteLine("The call finished " + this.finish);
+            Console.WriteLine("Duration of the call: ");
+            Console.Write(this.duration.Days + " days, ");
+            Console.Write(this.duration.Hours + " hours, ");
+            Console.Write(this.duration.Minutes + " minutes, ");
+            Console.Write(this.duration.Seconds + " seconds.");
+            Console.WriteLine();
+            DisplayHistory();
+        }
+    }
+}
+
+
+======================== main.cs ======================
+
+using System;
+
+namespace Call_
+{
+    class CallTest
+    {
+        static void Main()
+        {
+            while (true)
+            {
+                Console.Write("Press any key to continue, N to exit: ");
+                string s = Console.ReadLine();
+                if (s[0] == 'n' || s[0] == 'N')
+                    break;
+                Console.WriteLine("Please enter the date in a following format: yyyy-MM-dd HH:mm:ss");
+                Console.Write("Please enter the start time: ");
+                string start = Console.ReadLine();
+                Console.Write("Please enter the finish time: ");
+                string finish = Console.ReadLine();
+                Call myCall = new Call(start, finish);
+                myCall.Display();
+                Console.Write("Would you like to delete entry? Y/N: ");
+                string p = Console.ReadLine();
+                if (p[0] == 'Y' || p[0] == 'y')
+                {
+                    Console.Write("Please enter the number of entry to delete: ");
+                    string n = Console.ReadLine();
+                    Call.DeleteEntry(Int32.Parse(n));
+                }
+                Call.DisplayHistory();
+            }
+        }
+    }
+}

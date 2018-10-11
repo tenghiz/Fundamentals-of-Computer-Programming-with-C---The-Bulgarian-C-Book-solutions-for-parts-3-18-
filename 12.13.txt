@@ -1,0 +1,17 @@
+using System;
+using System.IO;
+using System.Net;
+
+class PrintFileContent
+{
+    static void Main()
+    {
+        Console.Write("Please input URL: ");
+        string URL = Console.ReadLine();
+        Console.Write("Please input destination folder and the file name: ");
+        string FileName = Console.ReadLine();
+        Console.WriteLine();
+        WebClient Client = new WebClient();
+        Client.DownloadFile(URL, FileName);
+    }        
+}

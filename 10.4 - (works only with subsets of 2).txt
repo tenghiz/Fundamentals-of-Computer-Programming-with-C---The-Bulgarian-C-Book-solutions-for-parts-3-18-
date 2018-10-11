@@ -1,0 +1,42 @@
+//10.4 - generate all non-rpeating subsets
+// Works only with subsets of 2.
+
+using System;
+class RecursiveNestedLoops
+{
+    static int numberOfLoops;
+    static int numberOfIterations;
+    static int[] loops;
+    static int counter1 = 0;
+    static void Main()
+    {
+        Console.Write("N = ");
+        numberOfLoops = int.Parse(Console.ReadLine());
+        Console.Write("K = ");
+        numberOfIterations = int.Parse(Console.ReadLine());
+        loops = new int[numberOfLoops];
+        NestedLoops(0);
+    }
+    static void NestedLoops(int currentLoop)
+    {
+        if (currentLoop == numberOfLoops)
+        {
+            PrintLoops();
+            return;
+        }
+        counter1++;
+        for (int counter = counter1; counter <= numberOfIterations; counter++)
+        {
+            loops[currentLoop] = counter;
+            NestedLoops(currentLoop + 1);
+        }
+    }
+    static void PrintLoops()
+    {
+        for (int i = 0; i < numberOfLoops; i++)
+        {
+            Console.Write("{0} ", loops[i]);
+        }
+        Console.WriteLine();
+    }
+}

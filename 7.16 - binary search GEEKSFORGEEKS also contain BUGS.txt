@@ -1,0 +1,64 @@
+// Binary search - version from geeksforgeeks - also bugged
+
+using System;
+
+class BinarySearch
+{
+    public static void Main()
+    {
+        Console.Write("Please enter the length of array: ");
+        int a = int.Parse(Console.ReadLine());
+        int[] arr = new int[a];
+        Random rnd = new Random();
+        Console.WriteLine("Generated array: ");
+        for (int i = 0;i<a;i++)
+        {
+            arr[i] = rnd.Next(100);
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        int value = arr[0];
+        Console.WriteLine("The value is " + value);
+        Console.WriteLine("Sorted array: ");
+        for (int i=0;i<a;i++)
+        {
+            for (int j = 1;j<a;j++)
+            {
+                int temp;
+                if (arr[j] < arr[j-1])
+                {
+                    temp = arr[j];
+                    arr[j] = arr[j - 1];
+                    arr[j - 1] = temp;
+                }
+            }
+        }
+        for (int i = 0; i < a; i++)
+        {
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        Console.WriteLine("Performing binary search...");
+        int left_border = 0;
+        int right_border = a-1;
+        while(left_border< right_border)
+        {
+            int middle = left_border + (right_border - left_border) / 2;
+            if (arr[middle] == value)
+            {
+                Console.WriteLine("Value is found at index " + middle);
+                break;
+            }
+            if (arr[middle] < value)
+            {
+                left_border = middle = 1;
+                Console.WriteLine("Value is above " + middle);
+            }
+            else
+            {
+                right_border = middle - 1;
+                Console.WriteLine("Value is between " + left_border + " and " + right_border);
+            }   
+        }
+    }
+}

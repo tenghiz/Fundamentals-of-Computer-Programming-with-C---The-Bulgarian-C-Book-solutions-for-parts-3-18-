@@ -1,0 +1,70 @@
+===================== call.cs =============================
+
+using System;
+using System.Text;
+
+namespace Call_
+{
+    class Call
+    {
+        private DateTime start;
+        private DateTime finish;
+        private TimeSpan duration;
+        static string CallHistory;
+        static int number_of_calls = 0;
+
+        // constructor
+        public Call(string s, string f)
+        {
+            this.start = DateTime.ParseExact(s, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.finish = DateTime.ParseExact(f, "yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture);
+            this.duration = finish - start;
+            number_of_calls++;
+            string call_info = number_of_calls.ToString() + " : " + s + ", " + f + ", " + duration.ToString() + ";\n";
+            CallHistory += call_info;
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("The call started " + this.start);
+            Console.WriteLine("The call finished " + this.finish);
+            Console.WriteLine("Duration of the call: ");
+            Console.Write(this.duration.Days + " days, ");
+            Console.Write(this.duration.Hours + " hours, ");
+            Console.Write(this.duration.Minutes + " minutes, ");
+            Console.Write(this.duration.Seconds + " seconds.");
+            Console.WriteLine();
+            Console.WriteLine(CallHistory);
+            Console.WriteLine();
+        }
+    }
+}
+
+
+======================= main.cs =======================
+
+using System;
+
+namespace Call_
+{
+    class CallTest
+    {
+        static void Main()
+        {
+            while(true)
+            {
+                Console.Write("Press any key to continue, N to exit: ");
+                string s = Console.ReadLine();
+                if (s[0] == 'n' || s[0] == 'N')
+                    break;
+                Console.WriteLine("Please enter the date in a following format: yyyy-MM-dd HH:mm:ss");
+                Console.Write("Please enter the start time: ");
+                string start = Console.ReadLine();
+                Console.Write("Please enter the finish time: ");
+                string finish = Console.ReadLine();
+                Call myCall = new Call(start, finish);
+                myCall.Display();
+            }
+        }
+    }
+}

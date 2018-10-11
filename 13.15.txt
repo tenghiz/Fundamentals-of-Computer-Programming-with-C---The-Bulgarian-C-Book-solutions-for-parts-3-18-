@@ -1,0 +1,35 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        const int entry = 5;
+        string[] dictionary = new string[entry] {"mama - woman", "papa - man", "son - kind", "kitty - cat", "puppy - dog" };
+        while(true)
+        {
+            Console.Write("Press Y to continue, N to exit: ");
+            string ch = Console.ReadLine();
+            if (ch == "n" || ch == "N")
+                break;
+            Console.Write("Please enter a word: ");
+            string word = Console.ReadLine();
+            word = word + " - ";
+            int counter = 0;
+            for (int i = 0; i < entry; i++)
+            {
+                string s = dictionary[i];
+                int index = s.LastIndexOf(word);
+                if (index != -1)
+                {
+                    Console.Write(s);
+                    counter++;
+                }
+                Console.WriteLine();
+            }
+            if (counter == 0)
+                Console.WriteLine("Word was not found!");
+        }
+    }
+}

@@ -1,0 +1,148 @@
+// This program looks in a given matrix for the largest area of adjacent numbers (here is 1s).
+// Its major flaw is the impossibility to discern the difference between "continents" and several "islands".
+
+// Example:
+
+// *1*1*
+// 1111*
+// 1****
+// *****
+// *****
+
+// This matrix contains an area of 7 adjacent "1s". Total area = 7 ("continent").
+
+// *1*1*
+// 11*1*
+// 11***
+// *****
+// *****
+
+// This matrix contains 2 separated areas of 5 and 2 adjacent "1s". Total area = 7 (two "islands").
+
+#include <iostream>
+#include <stdlib.h>
+#include <time.h>
+
+using namespace std;
+
+// this subroutine checks whether the element is present in array, if no, then it places it in array
+int check(int * adjacent, int a, int member, int counter)
+{
+int present = 0;
+for (int k = 0; k < a*a; k++)
+{
+if (adjacent[k] == member)
+{
+present++;
+}
+}
+if (present == 0)
+{
+adjacent[counter] = member;
+counter++;
+}
+return counter;
+}
+
+int main()
+{
+const int a = 5; // set array side for 5
+int arr[a][a];
+srand(time(NULL));
+cout << "Generated array: " << endl;
+for (int i = 0; i<a; i++)
+{
+for (int j = 0; j<a; j++)
+{
+arr[i][j] = rand()%5+1;
+cout << arr[i][j] << " ";
+}
+cout << endl;
+}
+cout << endl;
+cout << endl;
+
+// visualize the area with desired elements (here is 1)
+for (int i = 0; i < a; i++)
+{
+for (int j = 0; j < a; j++)
+{
+if (arr[i][j] == 1)
+{
+cout << arr[i][j] << " ";
+}
+else
+{
+cout << "  ";
+}
+}
+cout << endl;
+}
+cout << endl;
+
+int adjacent[a*a]; // matrix for indexes of all adjacent elements
+for (int i = 0; i < a*a; i++)
+adjacent[i] = -1;
+int counter = 0; // number of adjacent elements
+int member; // index of adjacent element
+
+// this loop looks for all elements (here 1) which neighbor is also 1
+// all 1s without neighbors will be excluded from the search
+for (int i = 0; i < a; i++)
+{
+for (int j = 0; j < a; j++)
+{
+// check the neighbor from the left side
+if (arr[i][j] == 1 && arr[i][j - 1] == 1)
+{
+member = i * 10 + j;
+counter = check(adjacent, a, member, counter);
+member = i * 10 + j - 1;
+counter = check(adjacent, a, member, counter);
+}
+// check the neighbor from the upper side
+if (arr[i][j] == 1 && arr[i-1][j] == 1)
+{
+member = i * 10 + j;
+counter = check(adjacent, a, member, counter);
+member = (i-1) * 10 + j;
+counter = check(adjacent, a, member, counter);
+}
+}
+}
+cout << "Area is " << counter << endl;
+// selection sort (increasing order)
+for (int i = 0; i < a*a; i++)
+{
+int min = i;
+for (int j = i+1; j < a*a; j++)
+{
+if (adjacent[j] < adjacent[min])
+{
+min = j;
+}
+}
+int temp = adjacent[min];
+adjacent[min] = adjacent[i];
+adjacent[i] = temp;
+}
+int * subarray = new int[counter + 1];
+int b = 0;
+for (int i = 0; i < a*a; i++)
+{
+if (adjacent[i] != -1)
+{
+if (adjacent[i] < 10)
+{
+cout << "0" << adjacent[i] << " ";
+}
+else
+{
+cout << adjacent[i] << " ";
+}
+subarray[b] = adjacent[i];
+b++;
+}
+}
+cout << endl;
+}

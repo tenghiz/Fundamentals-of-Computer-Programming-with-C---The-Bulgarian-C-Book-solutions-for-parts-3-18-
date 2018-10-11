@@ -1,0 +1,29 @@
+using System;
+class BitPosition
+{
+    public static void Main()
+    {
+        //input a four-digit number
+        Console.Write("Please enter a number between 0 and 255: ");
+        string q = Console.ReadLine();
+        int num = int.Parse(q);
+        int arr_length = 8;
+        int[] arr = new int[arr_length];
+        int i = arr_length - 1;
+        while (num != 0)
+        {
+            arr[i] = num % 2;
+            num /= 2;
+            i--;
+        }
+        Console.Write("Please enter bit position: ");
+        string p = Console.ReadLine();
+        int bit = int.Parse(p);
+        Console.Write("Number {0} in binary form: ", num);
+        for (int j = 0; j < arr_length; j++)
+            Console.Write(arr[j]);
+        Console.WriteLine();
+        Console.Write("Bit in position {0} is ", bit);
+        Console.WriteLine(arr[arr_length-bit-1]);
+    }
+}

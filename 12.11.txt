@@ -1,0 +1,51 @@
+using System;
+using System.IO;
+
+class FileParse
+{
+    public class FileParseException:Exception
+    {
+        // constructor
+        public FileParseException()
+        {
+           
+        }
+
+        // 
+        public FileParseException(string message):base(message)
+        {
+          
+        }
+
+        //
+        public FileParseException(string message, Exception inner):base(message, inner)
+        {
+
+        }
+    }
+
+    static void Main()
+    {
+        string FileName = "D:\\bulgar\\copy.txt";
+        TextReader reader = new StreamReader(FileName);
+        int number = 0;
+        int row = 0;
+        while(number != -1) // -1 marks the EOF
+        {
+            number = reader.Read();
+            if (number == 13)
+                row++;
+            if ((number > 57))
+            {
+                Console.WriteLine();
+                Console.Write(FileName + ". Line number " + row);
+                throw new FileParseException("Non numerical character was encountered!");
+            }
+            if (number != 10 && number != 13)
+                Console.Write((char)number + " ");
+            if (number == 13)
+                Console.WriteLine();
+        }
+        reader.Close();
+    }        
+}

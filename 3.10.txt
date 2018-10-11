@@ -1,0 +1,46 @@
+using System;
+class Swap
+{
+    public static void Main()
+    {
+        //input a four-digit number
+        Console.Write("Please enter a four-digit number: ");
+        string q = Console.ReadLine();
+        int r = int.Parse(q);
+        int[] arr = new int[4];
+        int s = 3;
+        while(r != 0)
+        {
+            arr[s] = r % 10;
+            r /= 10;
+            s--;
+        }
+        int sum = 0;
+        for (int i = 0; i < 4; i++)
+        {
+            sum += arr[i];
+        }
+        Console.WriteLine("The sum of {0} + {1} + {2} + {3} is {4}", arr[0], arr[1], arr[2], arr[3], sum);
+        Console.Write("Reversed order: ");
+        for (int i = 3; i > -1; i--)
+        {
+            Console.Write(arr[i]);
+        }
+        Console.WriteLine();
+        Console.Write("ROL: ");
+        int temp = arr[0];
+        int temp1 = 0;
+        for (int i = 1;i<4;i++)
+        {
+            temp1 = arr[i];
+            arr[i] = temp;
+            temp = temp1;
+        }
+        arr[0] = temp;
+        for (int i = 0;i<4;i++)
+        {
+            Console.Write(arr[i]);
+        }
+        Console.WriteLine();
+    }
+}

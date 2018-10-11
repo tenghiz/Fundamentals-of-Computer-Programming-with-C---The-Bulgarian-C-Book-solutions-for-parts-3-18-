@@ -1,0 +1,93 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Please enter the name of input file: ");
+        string input_file1 = Console.ReadLine();
+        Console.Write("Please enter the name of output file: ");
+        string output_file1 = Console.ReadLine();
+        StreamReader sr = new StreamReader(input_file1);
+        StreamWriter sw = new StreamWriter(output_file1);
+        int counter = 0;
+        // this part creates new output file and writes all words from input file in a separate lines
+        while (true)
+        {
+            int ch = sr.Read();
+            if (ch == -1)
+                break;
+            if (ch != ' ')
+                sw.Write((char)ch);
+            if (ch == ' ')
+            {
+                sw.WriteLine();
+                counter++;
+            }
+            if (ch == 10)
+            {
+                counter++;
+            }
+        }
+        sr.Close();
+        sw.Close();
+        // this part creates an array of string and fills it with words from previously created output file
+        string[] arr = new string[counter];
+        sr = new StreamReader(output_file1);
+        for (int i = 0;i<counter;i++)
+        {
+            string line = sr.ReadLine();
+            if (line != null)
+                arr[i] = line;
+        }
+        // this part sorts the array in alphabetical order
+        for (int i = 0;i<counter;i++)
+        {
+            for (int j = 1;j<counter;j++)
+            {
+                if (arr[j].CompareTo(arr[j-1]) == -1)
+                {
+                    string temp = arr[j];
+                    arr[j] = arr[j - 1];
+                    arr[j - 1] = temp;
+                }
+            }
+        }
+        sr.Close();
+        // this part refills the output file with sorted words
+        sw = new StreamWriter(output_file1);
+        for (int i = 0;i<counter;i++)
+        {
+            if (!string.IsNullOrEmpty(arr[i]))
+                sw.WriteLine(arr[i]);
+        }
+        sw.Close();
+        // remove all repeating words from the array 
+        string[] arr1 = new string[counter];
+        int c = 0;
+        int d = 0;
+        arr1[c] = arr[d];
+        d++;
+        while (d != counter)
+        {
+            if (arr[d] == arr1[c])
+                d++;
+            if (arr[d] != arr1[c])
+            {
+                c++;
+                arr1[c] = arr[d];
+                d++;
+            }
+        }
+        // refill the text file with non-repeating words
+        using (sw = new StreamWriter(output_file1))
+        {
+            for (int i = 0; i < c; i++)
+            {
+                if (!string.IsNullOrEmpty(arr1[i]))
+                    sw.WriteLine(arr1[i]);
+            }
+        }
+    }
+}

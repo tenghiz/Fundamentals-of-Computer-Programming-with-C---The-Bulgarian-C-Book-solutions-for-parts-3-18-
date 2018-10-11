@@ -1,0 +1,78 @@
+// 16.18 - Put the minimal distance from the start to any cell in the labyrinth (bugged version)
+
+// The values of all cells are set to 0;
+// obstacles are marked by -1;
+
+// This program looks for a minimal distance under following conditions:
+// the value of current cell = 0;
+// the value of current cell > value of precedent cell + 1.
+
+// BUG: since entry point is also set to 0, it is overwritten.
+
+using System;
+
+class Programm
+{
+    const int leng = 4;
+
+    static void Main()
+    {
+        int[,] labyrinth = new int[leng, leng];
+        for (int i = 0;i<leng;i++)
+        {
+            for (int j = 0; j < leng; j++)
+                labyrinth[i, j] = 0;
+        }
+        labyrinth[0,0] = -1;// set obstacle
+        labyrinth[2,2] = -1;// set obstacle
+        FindPath(labyrinth, 0, 2); // entry point 
+        for (int i = 0;i<leng;i++)
+        {
+            for (int j = 0;j<leng;j++)
+            {
+                Console.Write(labyrinth[i, j] + "\t");
+            }
+            Console.WriteLine();
+        }
+    }
+
+    static int newX, newY;
+    static void FindPath(int [,] laby, int x, int y)
+    {
+        // go to the left
+        newX = x - 1;
+        newY = y;
+        if(newX>-1 && (laby[newX, newY] == 0 || laby[newX, newY] > laby[newX+1, newY] + 1)) 
+        {
+            laby[newX, newY] = laby[x, y] + 1;
+            FindPath(laby, newX, newY);
+        }
+
+        // go to the right
+        newX = x + 1;
+        newY = y;
+        if (newX < leng && (laby[newX, newY] == 0 || laby[newX, newY] > laby[newX - 1, newY] + 1))
+        {
+            laby[newX, newY] = laby[x, y] + 1;
+            FindPath(laby, newX, newY);
+        }
+
+        // go upwards
+        newX = x;
+        newY = y-1;
+        if (newY >-1 && (laby[newX, newY] == 0 || laby[newX, newY] > laby[newX, newY+1] + 1))
+        {
+            laby[newX, newY] = laby[x, y] + 1;
+            FindPath(laby, newX, newY);
+        }
+
+        // go downwards
+        newX = x;
+        newY = y + 1;
+        if (newY < leng && (laby[newX, newY] == 0 || laby[newX, newY] > laby[newX, newY-1] + 1))
+        {
+            laby[newX, newY] = laby[x, y] + 1;
+            FindPath(laby, newX, newY);
+        }
+    }
+}

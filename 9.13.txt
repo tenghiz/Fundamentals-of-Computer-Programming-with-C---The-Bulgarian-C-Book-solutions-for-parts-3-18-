@@ -1,0 +1,60 @@
+using System;
+class PolynomProductClass
+{
+  
+    static void PolynomProduct(int [] arr, int arr_length, int [] arr1, int arr_length1, int [] product, int product_length)
+    {
+        for (int i = 0; i < product_length; i++)
+        {
+            product[i] = 0;
+        }
+        for (int i = 0; i < arr_length; i++)
+        {
+            for (int j = 0;j<arr_length1;j++)
+            {
+                product[i + j] += arr[i] * arr1[j];
+            }
+        }
+    }
+   
+
+    static void PrintPolynom(int[] arr, int arr_length)
+    {
+        for (int i = 0; i < arr_length; i++)
+        {
+            if (i == 0)
+                Console.Write("(" + arr[i] + ")");
+            else
+            {
+                Console.Write(" + " + "(" + arr[i] + ")*x^" + i);
+            }
+            
+        }
+        Console.WriteLine();
+    }
+    public static void Main()
+    {
+        Random rnd = new Random();
+        int arr_length = rnd.Next(1,5); 
+        int[] arr = new int[arr_length];
+        for (int i = 0;i<arr_length;i++)
+        {
+            arr[i] = rnd.Next(-10, 10);
+        }
+        Console.WriteLine("First polynom: ");
+        PrintPolynom(arr, arr_length);
+        int arr_length1 = rnd.Next(1, 5);
+        int[] arr1 = new int[arr_length1];
+        for (int i = 0; i < arr_length1; i++)
+        {
+            arr1[i] = rnd.Next(-10, 10);
+        }
+        Console.WriteLine("Second polynom: ");
+        PrintPolynom(arr1, arr_length1);
+        int product_length = arr_length + arr_length1 - 1;
+        int[] product = new int[product_length];
+        PolynomProduct(arr, arr_length, arr1, arr_length1, product, product_length);
+        Console.WriteLine("Product: ");
+        PrintPolynom(product, product_length);
+    }
+}

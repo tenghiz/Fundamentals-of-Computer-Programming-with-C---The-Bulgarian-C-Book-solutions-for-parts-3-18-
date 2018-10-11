@@ -1,0 +1,29 @@
+using System;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        Stack<int> myStack = new Stack<int>();
+        while(true)
+        {
+            Console.Write("Please enter any positive number or ENTER to exit: ");
+            string s = Console.ReadLine();
+            if (string.IsNullOrEmpty(s))
+                break;
+            else
+            {
+                myStack.Push(Int32.Parse(s));
+            }
+        }
+        Console.Write("Entered elements in reversed oreder: ");
+        int z = myStack.Count;
+        for (int i = 0;i<z;i++)
+        {
+            Console.WriteLine(myStack.Pop());
+        }
+    }
+}

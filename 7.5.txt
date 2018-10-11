@@ -1,0 +1,68 @@
+using System;
+
+class LongestIncreasingSequence
+{
+    public static void Main()
+    {
+        Console.Write("Please enter the maximal length of array: ");
+        int z = int.Parse(Console.ReadLine());
+        Console.Write("Set the length of the sequence of equal elements: ");
+        int y = int.Parse(Console.ReadLine());
+        int trials = 1;
+        int element;
+        int[] subarray = new int[y];
+        while (true)
+        {
+            Random rnd = new Random();
+            int a = rnd.Next(y,z);
+            int[] arr = new int[a];
+            Console.Write("Array: ");
+            for (int i = 0; i < a; i++)
+            {
+                arr[i] = rnd.Next(10);
+                Console.Write(" " + arr[i]);
+            }
+            Console.WriteLine();
+            Console.WriteLine("Looking for the longest sequence...");
+            element = arr[0];
+            int counter = 1;
+            int sequence_found = 0;
+            subarray[0] = element;
+            for (int i = 1;i<a;i++)
+            {
+                if (arr[i] == (element+1))
+                {
+                    element = arr[i];
+                    subarray[counter] = element;
+                    counter++;
+                }
+                else if (arr[i] != (element+1))
+                {
+                    element = arr[i];
+                    subarray[0] = element;
+                    counter = 1;
+                }
+                if (counter == y)
+                {
+                    sequence_found++;
+                    break;
+                }
+            }
+            if (sequence_found == 1)
+                break;
+            else
+            {
+                trials++;
+                Console.WriteLine("Continue search...");
+            }
+            Console.WriteLine();
+        }
+        Console.Write("The longest increasing sequence { ");
+        for (int i = 0; i<y;i++)
+        {
+            Console.Write(subarray[i] + " ");
+        }
+        Console.WriteLine("} was found after " + trials + " trials");
+        Console.WriteLine();
+    }
+}

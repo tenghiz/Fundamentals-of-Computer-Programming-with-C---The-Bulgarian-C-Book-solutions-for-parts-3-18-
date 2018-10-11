@@ -1,0 +1,50 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        string s = "I don't have any password";
+        int z = s.Length;
+        string code = "password";
+        int y = code.Length;
+        int[] encrypted_pass = new int[z];
+        int counter_z = 0;
+        int counter_y = 0;
+        Console.WriteLine("Encrypted password: ");
+        while (true)
+        {
+            if (counter_z == z)
+                break;
+            if (counter_y == y)
+                counter_y = 0;
+            int a = s[counter_z] ^ code[counter_y];
+            Console.Write(a + " ");
+            encrypted_pass[counter_z] = a;
+            string encrypted = "\\u" + (s[counter_z] ^ code[counter_y]).ToString("X4") + " ";
+            Console.Write(encrypted);
+            counter_z++;
+            counter_y++;
+        }
+        Console.WriteLine();
+        Console.WriteLine("Decrypted password: ");
+        counter_z = 0;
+        counter_y = 0;
+        StringBuilder sb1 = new StringBuilder();
+        while (true)
+        {
+            if (counter_z == z)
+                break;
+            if (counter_y == y)
+                counter_y = 0;
+            int b = encrypted_pass[counter_z] ^ code[counter_y];
+            Console.Write(b + " ");
+            sb1.Append((char)b);
+            counter_z++;
+            counter_y++;
+        }
+        Console.WriteLine();
+        Console.WriteLine(sb1);
+    }
+}

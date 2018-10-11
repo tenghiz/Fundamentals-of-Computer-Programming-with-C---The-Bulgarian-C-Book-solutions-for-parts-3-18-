@@ -1,0 +1,43 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace CircularQueue_
+{
+    class Program
+    {
+        static void Main()
+        {
+            LinkedList<int> myList = new LinkedList<int>();
+            Random rnd = new Random();
+            int leng = 10;
+            for (int i = 0;i<leng;i++)
+            {
+                int z = rnd.Next(1, 10);
+                myList.AddFirst(z);
+                Console.WriteLine(z);
+            }
+            Console.WriteLine("Sorting array...: ");
+            for (int i = 0; i<leng;i++)
+            {
+                var currentNode = myList.First; // get reference to first node
+                for (int j = 1; j < leng; j++)
+                {
+                    if (currentNode.Value > currentNode.Next.Value)
+                    {
+                        int temp = currentNode.Value;
+                        currentNode.Value = currentNode.Next.Value;
+                        currentNode.Next.Value = temp;
+                    }
+                    currentNode = currentNode.Next;
+                }
+            }
+            for (int i=0;i<leng;i++)
+            {
+                int x = myList.First.Value;
+                Console.WriteLine(x);
+                myList.RemoveFirst();
+            }
+        }
+    }
+}

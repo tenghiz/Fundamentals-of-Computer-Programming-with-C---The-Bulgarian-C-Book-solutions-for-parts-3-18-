@@ -1,0 +1,18 @@
+using System;
+using System.Text;
+
+class PrintFileContent
+{
+    static void Main()
+    {
+        string s = "Abcde";
+        int z = s.Length;
+        StringBuilder sb = new StringBuilder();
+        for (int i = z-1;i>-1;i--)
+        {
+            sb.Append(s[i]);
+        }
+        string s1 = sb.ToString();
+        Console.WriteLine(s1);
+    }
+}

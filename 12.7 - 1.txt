@@ -1,0 +1,27 @@
+//12.7 - This program allows to print BYE in both cases
+
+using System;
+
+class SquareRoot
+{
+    static void Main()
+    {
+        Console.Write("Please enter the number: ");
+        try
+        {
+            double z = double.Parse(Console.ReadLine());
+            if (z < 0)
+                throw new ApplicationException();
+            double x = Math.Sqrt(z);
+            Console.WriteLine("The square root is " + x);
+        }
+        catch (ApplicationException ex)
+        {
+            throw new ApplicationException("Negative numbers are not allowed!", ex);
+        }
+        finally
+        {
+            Console.WriteLine("Bye!");
+        }
+    }
+}

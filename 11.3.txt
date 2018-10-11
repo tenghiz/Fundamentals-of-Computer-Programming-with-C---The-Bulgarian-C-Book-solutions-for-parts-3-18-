@@ -1,0 +1,10 @@
+using System;
+
+class GetDay
+{
+    static void Main()
+    {
+        string day_of_week = DateTime.Now.DayOfWeek.ToString();
+        Console.WriteLine(day_of_week);
+    }
+}

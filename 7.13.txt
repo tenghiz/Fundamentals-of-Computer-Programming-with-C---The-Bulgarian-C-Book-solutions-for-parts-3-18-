@@ -1,0 +1,86 @@
+using System;
+
+class MaxSumPlatform
+{
+    public static void Main()
+    {
+        Console.Write("Please enter number 1 (not less than 3): ");
+        int a = int.Parse(Console.ReadLine());
+        Console.Write("Please enter number 2 (not less than 3): ");
+        int b = int.Parse(Console.ReadLine());
+        int min, max;
+        if (a > b)
+        {
+            max = a;
+            min = b;
+        }
+        else
+        {
+            max = b;
+            min = a;
+        }
+        int[,] arr = new int[min, max];
+        int size = a * b;
+        Random rnd = new Random();
+        Console.WriteLine("Generate matrix: ");
+        Console.WriteLine();
+        for (int i = 0; i<min;i++)
+        {
+            for (int j = 0; j < max; j++)
+            {
+                arr[i, j] = rnd.Next(-10, 10);
+                Console.Write(arr[i, j] + "\t");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+        }
+        int sum = 0;
+        int c = 0;
+        int d = 0;
+        Console.WriteLine("Print submatrix: ");
+        Console.WriteLine();
+        int counter = 0;
+        while (true)
+        {
+            int new_sum = 0;
+            for (int i = c; i < c+3; i++)
+            {
+                for (int j = d; j < d+3; j++)
+                {
+                    new_sum += arr[i, j];
+                    Console.Write(arr[i, j] + "\t");
+                }
+                Console.WriteLine();
+            }
+            counter++;
+            if (counter == 1)
+                sum = new_sum;
+            Console.WriteLine("Sum of submatrix is " + new_sum);
+            Console.WriteLine();
+            if (new_sum >= sum)
+            {
+                sum = new_sum;
+                a = c;
+                b = d;
+            }
+            c++;
+            if (c > (min-3))
+            {
+                c = 0;
+                d++;
+            }
+            if (d > (max - 3))
+                break;
+        }
+        Console.WriteLine();
+        Console.WriteLine("Submatrix ");
+        for (int i = a;i<a+3;i++)
+        {
+            for (int j = b;j<b+3;j++)
+                Console.Write(arr[i, j] + "\t");
+            Console.WriteLine();
+        }
+        Console.WriteLine("has the maximal sum equal to " + sum);
+        Console.WriteLine();
+    }
+}

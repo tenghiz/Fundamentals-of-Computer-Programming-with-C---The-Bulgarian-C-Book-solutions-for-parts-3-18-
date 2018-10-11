@@ -1,0 +1,42 @@
+using System;
+class NumbersToWords
+{
+    static void Main()
+    {
+        Console.Write("Please enter any number in range between 0 and 999: ");
+        string s = Console.ReadLine();
+        int number = int.Parse(s);
+        int[] arr = new int[3];
+        int i = 0;
+        while(number != 0)
+        {
+            arr[i] = number % 10;
+            number /= 10;
+            i++;
+        }
+        string[] zero_ten = new string[10] {"zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+        string[] ten_twenty = new string[10] {"zero", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen" };
+        string[] twenty_hundred = new string[10] {"zero", "ten", "twenty", "thirty", "fourty", "fifty", "sixty", "seventy", "eighty", "ninety" };
+        if (arr[2] != 0)
+        {
+            Console.Write(zero_ten[arr[2]] + " hundred ");
+        }
+        if (arr[1] != 0 && arr[1] != 1)
+        {
+            Console.Write(twenty_hundred[arr[1]] + " ");
+        }
+        if (arr[1] != 1 && arr[0] != 0)
+        {
+            Console.Write(zero_ten[arr[0]]);
+        }
+        if (arr[1] == 1 && arr[0] == 0)
+        {
+            Console.Write(twenty_hundred[arr[1]] + " ");
+        }
+        if (arr[1] == 1 && arr[0] != 0)
+        {
+            Console.Write(ten_twenty[arr[0]] + " ");
+        }
+        Console.WriteLine();
+    }
+}

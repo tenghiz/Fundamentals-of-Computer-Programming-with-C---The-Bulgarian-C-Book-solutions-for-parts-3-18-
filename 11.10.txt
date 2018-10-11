@@ -1,0 +1,42 @@
+using System;
+
+class StringToSum
+{
+    static void Main()
+    {
+        Console.Write("Please enter a string of numbers separated by spaces: ");
+        string s = Console.ReadLine();
+        char[] ss = s.ToCharArray(); // convert string to char array
+        int leng = ss.Length;
+        int[] arr = new int[leng];
+        int counter = 0;
+        int multiplier = 1;
+        int sum = 0;
+        for (int i = leng - 1; i>-1; i--)
+        {
+            if (ss[i] != ' ')
+            {
+                sum += multiplier * (ss[i] - 0x30);
+                multiplier *= 10;
+            }
+            if (ss[i] == ' ')
+            {
+                counter++;
+                multiplier = 1;
+                sum = 0;
+            }
+            arr[counter] = sum;
+        }
+        Console.Write("The sum of string elements ");
+        sum = 0;
+        for (int i = 0;i<leng;i++)
+        {
+            if (arr[i] != 0)
+            {
+                Console.Write(arr[i] + " + ");
+                sum += arr[i];
+            }
+        }
+        Console.WriteLine(" equal " + sum);
+    }
+}

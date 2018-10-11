@@ -1,0 +1,191 @@
+// Unoptimized and incomplete version
+
+// This program consists of several parts.
+// Part 1 generates an array of random numbers, a subset of random numbers and the desired sum.
+// Part 2 compares whether the array contains the subset in a given order.
+// Part 3 calculates the sum of subset. If it is lower than the desired sum, then the program search for 
+// the desired sum using enumerative technique.
+
+using System;
+class SubsetSum
+{
+    public static void Main()
+    {
+        Console.Write("Please enter the length of array: ");
+        int a = int.Parse(Console.ReadLine());
+        int[] arr = new int[a];
+        Random rnd = new Random();
+        Console.WriteLine("Generated array: ");
+        for (int i = 0;i<a;i++)
+        {
+            arr[i] = rnd.Next(10);
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        int b = a / 5;
+        int[] subset = new int[b];
+        Console.WriteLine("Subset: ");
+        subset[0] = rnd.Next(1,10);
+        Console.Write(subset[0] + " ");
+        for (int i = 1; i < b; i++)
+        {
+            while(true)
+            {
+                int c = rnd.Next(1,10);
+                int counter = 0;
+                for (int k = 0; k < i; k++)
+                {
+                    if (c == subset[k])
+                    {
+                        counter++;
+                    }
+                }
+                if (counter == 0)
+                {
+                    subset[i] = c;
+                    break;
+                }
+            }
+            Console.Write(subset[i] + " ");
+        }
+        Console.WriteLine();
+        int number = rnd.Next(100);
+        Console.WriteLine("Sum of subset elements must be equal to " + number);
+        int j = 0;
+        for (int i = 0; i<a;i++)
+        {
+            if (arr[i] == subset[j])
+            {
+                Console.WriteLine("Subset element " + subset[j] + " has index " + i);
+                j++;
+                if (j == b)
+                    break;
+            }
+        }
+        if (j < b)
+            Console.WriteLine("The array doesn't contain the subset");
+        else
+            Console.WriteLine("The array contains the subset");
+        int sum = 0;
+        for (int i = 0; i < b; i++)
+        {
+            sum += subset[i];
+        }
+        Console.WriteLine("The sum of subset elements is " + sum);
+        Console.WriteLine();
+        int fit = 0;
+        while (true)
+        {
+            // round one
+            Console.WriteLine("Round one");
+            int multiplier;
+            for (int i = 0;i<b;i++)
+            {
+                multiplier = 1;
+                int sum1 = sum;
+                Console.WriteLine("Multiplying element " + subset[i] + ", other elements keep constant");
+                while (true)
+                {
+                    Console.Write("Multiplier = " + multiplier + ", sum = ");
+                    sum1 += multiplier * (subset[i]);
+                    Console.WriteLine(sum1);
+                    if (sum1 == number)
+                    {
+                        fit++;
+                        break;
+                    }
+                    if (sum1 > number)
+                        break;
+                    multiplier++;
+                }
+                if (fit == 1)
+                    break;
+            }
+            if (fit == 1)
+            {
+                Console.WriteLine("Fit!");
+                break;
+            }
+            // round two
+            Console.WriteLine();
+            Console.WriteLine("Round two");
+            for (int h = 0;h<b;h++)
+            {
+                int sum1 = sum + subset[h];
+                Console.WriteLine("Sum of subset + element " + subset[h] + " = " + sum1);
+                for (int i = 0; i < b; i++)
+                {
+                    multiplier = 1;
+                    int sum2 = sum1;
+                    Console.WriteLine("Multiplying element " + subset[i] + ", other elements keep constant");
+                    while (true)
+                    {
+                        Console.Write("Multiplier = " + multiplier + ", sum = ");
+                        sum2 += multiplier * (subset[i]);
+                        Console.WriteLine(sum2);
+                        if (sum2 == number)
+                        {
+                            fit++;
+                            break;
+                        }
+                        if (sum2 > number)
+                            break;
+                        multiplier++;
+                    }
+                    if (fit == 1)
+                        break;
+                }
+                if (fit == 1)
+                    break;
+            }
+            if (fit == 1)
+            {
+                Console.WriteLine("Fit!");
+                break;
+            }
+            // round three
+            Console.WriteLine();
+            Console.WriteLine("Round three");
+            for (int g = 0;g<b;g++)
+            {
+                for (int h = g+1; h < b; h++)
+                {
+                    int sum1 = sum + subset[h] + subset[h - 1];
+                    Console.WriteLine("Sum of subset + element " + subset[h] + " + element " + subset[h - 1] + " = " + sum1);
+                    for (int i = 0; i < b; i++)
+                    {
+                        multiplier = 1;
+                        int sum2 = sum1;
+                        Console.WriteLine("Multiplying element " + subset[i] + ", other elements keep constant");
+                        while (true)
+                        {
+                            Console.Write("Multiplier = " + multiplier + ", sum = ");
+                            sum2 += multiplier * (subset[i]);
+                            Console.WriteLine(sum2);
+                            if (sum2 == number)
+                            {
+                                fit++;
+                                break;
+                            }
+                            if (sum2 > number)
+                                break;
+                            multiplier++;
+                        }
+                        if (fit == 1)
+                            break;
+                    }
+                    if (fit == 1)
+                        break;
+                }
+                if (fit == 1)
+                    break;
+            }
+            if (fit == 1)
+            {
+                Console.WriteLine("Fit!");
+                break;
+            }
+            break;
+        }
+    }
+}

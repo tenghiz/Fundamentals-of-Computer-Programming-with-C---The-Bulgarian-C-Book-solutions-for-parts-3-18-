@@ -1,0 +1,20 @@
+﻿using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        string s = "éèàç";
+        int z = s.Length;
+        StringBuilder sb = new StringBuilder();
+        int index = 0;
+        while (index < z)
+        {
+            string start = "\\u" + ((int)s[index]).ToString("X4");
+            sb.Append(start);
+            index++;
+        }
+        Console.WriteLine(sb);
+    }
+}

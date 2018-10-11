@@ -1,0 +1,30 @@
+using System;
+using System.IO;
+
+class PrintFileContent
+{
+    static void Main()
+    {
+        Console.Write("Please input the name of file: ");
+        string FileName = Console.ReadLine();
+        Console.WriteLine();
+        TextReader reader = null;
+        try
+        {
+            reader = new StreamReader(FileName);
+            string text = reader.ReadToEnd();
+            Console.WriteLine(text);
+            Console.WriteLine();
+        }
+        catch (Exception e)
+        {
+            throw new ApplicationException("ERROR!", e);
+        }
+        finally
+        {
+            reader.Close();
+            Console.WriteLine("BYE!");
+        }
+        
+    }        
+}

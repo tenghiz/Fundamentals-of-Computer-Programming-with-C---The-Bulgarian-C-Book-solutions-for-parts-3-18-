@@ -1,0 +1,33 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        string s = "Don't play around here. Stop drinking water. play with me.";
+        string p = "play";
+        int index = 0;
+        string sentence;
+        while (true)
+        {
+            index = s.IndexOf(p, index);
+            if (index == -1)
+                break;
+            int a = s.IndexOf('.', index);
+            int b = s.LastIndexOf('.', index);
+            if (b == -1)
+            {
+                b = 0;
+                sentence = s.Substring(b, a - b);
+            }
+            else
+            {
+                b += 2;
+                sentence = s.Substring(b, a - b);
+            }    
+            Console.WriteLine(sentence);
+            index = a;
+        }
+    }
+}

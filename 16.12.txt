@@ -1,0 +1,139 @@
+============================== class.cs ==============================
+
+using System;
+
+namespace DynamicStack_
+{
+    class myDynamicStack<T>
+    {
+        private T [] element;
+        static int counter;
+
+        public myDynamicStack()
+        {
+            this.element = null;
+            counter = 0;
+        }
+
+        public bool Push(T item)
+        {
+            counter++;
+            T[] arr = new T[counter];
+            for (int i = 0;i<counter-1;i++)
+            {
+                arr[i] = element[i];
+            }
+            arr[counter - 1] = item;
+            this.element = null;
+            element = new T[counter];
+            for (int i = 0; i < counter; i++)
+            {
+                element[i] = arr[i];
+            }
+            arr = null;
+            return true;
+        }
+
+        public T Pop()
+        {
+            if (counter == 0)
+            {
+                Console.WriteLine("Stack is empty!");
+                return default(T);
+            }
+            else
+            {
+                T item = element[counter - 1];
+                counter--;
+                T[] arr = new T[counter];
+                for (int i = 0; i < counter; i++)
+                {
+                    arr[i] = element[i];
+                }
+                this.element = null;
+                element = new T[counter];
+                for (int i = 0; i < counter; i++)
+                {
+                    element[i] = arr[i];
+                }
+                arr = null;
+                return item;
+            }
+        }
+
+        public int Counter
+        {
+            get { return counter; }
+        }
+
+        public T Peek()
+        {
+            if (counter == 0)
+            {
+                Console.WriteLine("Stack is empty!");
+                return default(T);
+            }
+            else
+                return element[counter - 1];
+        }
+
+        public bool Clear()
+        {
+            this.element = null;
+            counter = 0;
+            return true;
+        }
+    }
+}
+
+
+============================ main.cs ===========================
+
+using System;
+using System.Collections;
+
+namespace DynamicStack_
+{
+    class Program
+    {
+        static void Main()
+        {
+            myDynamicStack<int> myStack = new myDynamicStack<int>();
+            int z = 0;
+            while (true)
+            {
+                Console.Write("Press any key to continue, N to exit: ");
+                string s = Console.ReadLine();
+                if (s[0] == 'n' || s[0] == 'N')
+                    break;
+                Console.Write("Would you like to Push(U), Pop(O), Peek(E), Count(C) or Clear(L) stack?");
+                s = Console.ReadLine();
+                if (s[0] == 'U' || s[0] == 'u')
+                {
+                    Console.Write("Please enter the item to push: ");
+                    myStack.Push(Int32.Parse(Console.ReadLine()));
+                }
+                else if (s[0] == 'O' || s[0] == 'o')
+                {
+                    z = myStack.Pop();
+                    Console.WriteLine("Item " + z + " was popped");
+                }
+                else if (s[0] == 'E' || s[0] == 'e')
+                {
+                    z = myStack.Peek();
+                    Console.WriteLine("Item " + z + " is on the top of the stack");
+                }
+                else if (s[0] == 'L' || s[0] == 'l')
+                {
+                    myStack.Clear();
+                    Console.WriteLine("Stack is cleared");
+                }
+                else if (s[0] == 'C' || s[0] == 'c')
+                {
+                    Console.WriteLine("Stack contains " + myStack.Counter + " elements");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}

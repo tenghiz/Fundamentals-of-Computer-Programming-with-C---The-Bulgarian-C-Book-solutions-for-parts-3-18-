@@ -1,0 +1,28 @@
+using System;
+class GreaterThanNeighboursClass
+{
+
+    static bool GreaterThanNeighbours(int [] arr, int arr_length, int position)
+    {
+        if (arr[position] > arr[position - 1] && arr[position] > arr[position + 1])
+            return true;
+        else
+            return false;
+    }
+    public static void Main()
+    {
+        Random rnd = new Random();
+        int arr_length = rnd.Next(1,30); 
+        int[] arr = new int[arr_length];
+        Console.WriteLine("Generated array: ");
+        for (int i = 0;i<arr_length;i++)
+        {
+            arr[i] = rnd.Next(1, 30);
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        int position = rnd.Next(2, arr_length-2);
+        bool g = GreaterThanNeighbours(arr, arr_length, position);
+        Console.WriteLine("Element " + arr[position] + " (index [" + position + "]) greater than its two neighbours: " + g);
+    }
+}

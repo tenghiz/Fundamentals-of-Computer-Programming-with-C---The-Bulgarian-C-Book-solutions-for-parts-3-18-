@@ -1,0 +1,77 @@
+// 11.8 - Create an array of objects
+
+using System;
+
+namespace CreatingAndUsingObjects
+{
+    public class Cat
+    {
+        // Field name
+        private string name;
+        // Field color
+        private string color;
+        public string Name
+        {
+            // Getter of the property "Name"
+            get
+            {
+                return this.name;
+            }
+            // Setter of the property "Name"
+            set
+            {
+                this.name = value;
+            }
+        }
+        public string Color
+        {
+            // Getter of the property "Color"
+            get
+            {
+                return this.color;
+            }
+            // Setter of the property "Color"
+            set
+            {
+                this.color = value;
+            }
+        }
+
+        // Default constructor
+        public Cat()
+        {
+            this.name = "Unnamed";
+            this.color = "gray";
+        }
+        // Constructor with parameters
+        public Cat(string name, string color)
+        {
+            this.name = name;
+            this.color = color;
+        }
+        // Method SayMiau
+        public void SayMiau()
+        {
+            Console.WriteLine("Cat {0} said: Miauuuuuu!", name);
+        }
+    }
+
+    class CatManipulating
+    {
+        static void Main()
+        {
+            int length_of_arr = 10;
+            Cat[] arr = new Cat[length_of_arr];
+            for (int i = 0;i< length_of_arr;i++)
+            {
+                string name = "Cat_" + i;
+                string color = "color_" + i;
+                arr[i] = new Cat(name, color);
+            }
+            for (int i = 0; i < length_of_arr; i++)
+            {
+                arr[i].SayMiau();
+            }
+        }
+    }
+}

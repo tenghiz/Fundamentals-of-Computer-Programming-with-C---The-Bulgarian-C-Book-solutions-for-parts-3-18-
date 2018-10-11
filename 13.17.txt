@@ -1,0 +1,17 @@
+using System;
+using System.Text;
+
+class Parentheses
+{
+    static void Main()
+    {
+        Console.Write("Please enter the first date: ");
+        string date1 = Console.ReadLine();
+        DateTime parsedDate1 = DateTime.Parse(date1);
+        Console.Write("Please enter the second date: ");
+        string date2 = Console.ReadLine();
+        DateTime parsedDate2 = DateTime.Parse(date2);
+        TimeSpan ts = parsedDate2 - parsedDate1;
+        Console.WriteLine(ts.Days);
+    }
+}

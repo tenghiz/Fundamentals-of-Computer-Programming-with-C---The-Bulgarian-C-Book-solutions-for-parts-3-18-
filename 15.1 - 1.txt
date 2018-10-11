@@ -1,0 +1,30 @@
+using System;
+using System.IO;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Please enter the name of input file: ");
+        string input_file = Console.ReadLine();
+        Console.Write("Please enter the name of output file: ");
+        string output_file = Console.ReadLine();
+        //StreamWriter sw = new StreamWriter(output_file);
+        using (StreamReader sr = new StreamReader(input_file))
+        {
+            using (StreamWriter sw = new StreamWriter(output_file))
+            {
+                int line_number = 1;
+                while (true)
+                {
+                    string line = sr.ReadLine();
+                    if (line == null)
+                        break;
+                    if (line_number % 2 != 0)
+                        sw.WriteLine(line);
+                    line_number++;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,43 @@
+using System;
+class RandomSequence
+{
+    static void Main()
+    {
+        Console.Write("Please enter any number in range between 0 and 20: ");
+        string s = Console.ReadLine();
+        int number = int.Parse(s);
+        int[] arr = new int[number];
+        Console.WriteLine("Initial array: ");
+        for (int i = 0;i<number;i++)
+        {
+            arr[i] = i;
+            Console.Write(arr[i] + " ");
+        }
+        Console.WriteLine();
+        Random rnd = new Random();
+        int[] arr1 = new int[number];
+        arr1[0] = arr[rnd.Next(0,number)];
+        for (int i = 1;i<number;i++)
+        {
+            while(true)
+            {
+                int counter = 0;
+                int z = rnd.Next(0, number);
+                for (int j = 0;j<i;j++)
+                {
+                    if (arr1[j] == arr[z])
+                        counter++;
+                }
+                if (counter == 0)
+                {
+                    arr1[i] = arr[z];
+                    break;
+                }
+            }
+        }
+        Console.WriteLine("Random array: ");
+        for (int i = 0; i < number; i++)
+            Console.Write(arr1[i] + " ");
+        Console.WriteLine();
+    }
+}

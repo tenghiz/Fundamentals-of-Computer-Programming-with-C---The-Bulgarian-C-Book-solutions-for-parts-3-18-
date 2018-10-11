@@ -1,0 +1,53 @@
+using System;
+using System.Collections.Generic;
+
+class Program
+{
+    static void Main()
+    {
+        List<int> myList = new List<int>();
+        Random rnd = new Random();
+        int leng = 20;
+        for (int i = 0; i < leng; i++)
+        {
+            myList.Add(rnd.Next(1, 5));
+        }
+        for (int i = 0; i < leng; i++)
+        {
+            Console.WriteLine(i + "\t" + myList[i]);
+        }
+        int index = 1;
+        int counter = 0;
+        int current_counter = 0;
+        int sequence_index = 0;
+        int value = myList[0];
+        while (true)
+        {
+            if (myList[index] == value)
+            {
+                index++;
+                current_counter++;
+                if (index == leng)
+                    break;
+            }
+            else if (myList[index] != value)
+            {
+                value = myList[index];
+                index++;
+                if (index == leng)
+                    break;
+                current_counter = 0;
+            }
+            if (current_counter > counter)
+            {
+                counter = current_counter;
+                sequence_index = index - 1;
+            }
+            if (index == leng)
+                break;
+        }
+        Console.WriteLine("The longest sequence ends at index " + sequence_index);
+        Console.WriteLine("The sequence is composed of " + myList[sequence_index]);
+        Console.WriteLine("The length of the sequence is " + (counter+1));
+    }
+}

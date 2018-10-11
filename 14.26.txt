@@ -1,0 +1,119 @@
+======================== class.cs ========================
+
+using System;
+
+namespace Fraction_
+{
+    class Fraction
+    {
+        private int numerator;
+        private int denominator;
+        private char sign = '+';
+        private double dec;
+
+        public Fraction(int num, int denom, char s = '+')
+        {
+            this.sign = s;
+            this.numerator = num;
+            this.denominator = denom;
+            this.dec = (double)numerator / (double)denominator;
+            if (s == '-')
+                dec = 0 - dec;
+        }
+
+        public int Numerator
+        {
+            set { this.numerator = value; }
+        }
+
+        public int Denominator
+        {
+            set { this.denominator = value; }
+        }
+
+        public char Sign
+        {
+            set { this.sign = value; }
+        }
+
+        public double Decimal
+        {
+            get {return this.dec;}
+        }
+
+        public void Display()
+        {
+            Console.WriteLine("Numerator: " + numerator);
+            Console.WriteLine("Denominator: " + denominator);
+            Console.WriteLine("Sign: " + sign);
+            Console.WriteLine("Decimal value: " + dec);
+        }
+    }
+
+    static class StringToFraction
+    {
+        public static Fraction digit;
+      
+        public static void Parse(string s)
+        {
+            int z = s.Length;
+            char sign_ = '+';
+            int counter = 0;
+            while (true)
+            {
+                if (s[counter] == '/')
+                    break;
+                counter++;
+            }
+            int nomin = 0;
+            int multi = 1;
+            counter--;
+            while (counter > 0)
+            {
+                nomin += multi * ((s[counter]) & 0xf);
+                multi *= 10;
+                counter--;
+            }
+            if (s[0] == '-')
+                sign_ = s[0];
+            else
+                nomin += multi * ((s[0]) & 0xf);
+            int denomin = 0;
+            counter = z - 1;
+            multi = 1;
+            while (s[counter] != '/')
+            {
+                denomin += multi * ((s[counter]) & 0xf);
+                multi *= 10;
+                counter--;
+            }
+            digit = new Fraction(nomin, denomin, sign_);
+        }
+    }
+}
+
+========================== main.cs =====================
+
+using System;
+
+namespace Fraction_
+{
+    class FractionTest
+    {
+        static void Main()
+        {
+            Console.Write("Please enter the numerator: ");
+            int num = Int32.Parse(Console.ReadLine());
+            Console.Write("Please enter the denominator: ");
+            int den = Int32.Parse(Console.ReadLine());
+            Console.Write("Please enter the sign (+/-): ");
+            char sig = char.Parse(Console.ReadLine());
+            Fraction myFrac = new Fraction(num, den, sig);
+            myFrac.Display();
+            Console.Write("Please enter the fraction (format (+/-)(##)/(##)): ");
+            string frac = Console.ReadLine();
+            StringToFraction.Parse(frac);
+            StringToFraction.digit.Display();
+        }
+    }
+}
